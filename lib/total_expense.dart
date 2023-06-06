@@ -9,11 +9,11 @@ class TotalExpensePage extends StatefulWidget {
 }
 
 class _TotalExpensePageState extends State<TotalExpensePage> {
-  List<ExpenseItem> allExpenses = []; // Store all expenses
-  List<ExpenseItem> filteredExpenses = []; // Store filtered expenses
+  List<ExpenseItem> allExpenses = [];
+  List<ExpenseItem> filteredExpenses = [];
   double totalExpense = 0.0;
-  int selectedMonth =
-      DateTime.now().month; // Initially set to the current month
+  int selectedMonth = DateTime.now().month;
+  int selectedYear = DateTime.now().year;
 
   @override
   void initState() {
@@ -29,29 +29,51 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
       ),
       body: Column(
         children: [
-          DropdownButton<int>(
-            value: selectedMonth,
-            onChanged: (newValue) {
-              setState(() {
-                selectedMonth = newValue!;
-                filterExpensesByMonth();
-              });
-            },
-            items: [
-              for (int month = 1; month <= 12; month++)
-                DropdownMenuItem<int>(
-                  value: month,
-                  child: Text(getMonthName(month)),
-                ),
+          Row(
+            children: [
+              DropdownButton<int>(
+                value: selectedMonth,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedMonth = newValue!;
+                    filterExpensesByMonth();
+                  });
+                },
+                items: [
+                  for (int month = 1; month <= 12; month++)
+                    DropdownMenuItem<int>(
+                      value: month,
+                      child: Text(
+                        '${getMonthName(month)}',
+                      ),
+                    ),
+                ],
+              ),
+              DropdownButton<int>(
+                value: selectedYear,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedYear = newValue!;
+                    filterExpensesByMonth();
+                  });
+                },
+                items: [
+                  for (int year = DateTime.now().year; year >= 2020; year--)
+                    DropdownMenuItem<int>(
+                      value: year,
+                      child: Text(
+                        '$year',
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: filteredExpenses.length +
-                  1, // Add 1 for the "Total Expense" item
+              itemCount: filteredExpenses.length + 1,
               itemBuilder: (context, index) {
                 if (index < filteredExpenses.length) {
-                  // Display expense items
                   return ListTile(
                     title: Text(filteredExpenses[index].expenseType),
                     subtitle: Text(
@@ -59,7 +81,6 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                     ),
                   );
                 } else if (index == filteredExpenses.length) {
-                  // Display "Total Expense" item
                   return ListTile(
                     title: Center(
                       child: Text(
@@ -81,7 +102,6 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                     ),
                   );
                 } else {
-                  // Handle any additional cases
                   return SizedBox.shrink();
                 }
               },
@@ -114,7 +134,8 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
           "-" +
           expense.date.substring(0, 2) +
           "-01");
-      return expenseDate.month == selectedMonth;
+      return expenseDate.month == selectedMonth &&
+          expenseDate.year == selectedYear;
     }).toList();
 
     double sum = 0.0;

@@ -25,8 +25,8 @@ class _ExpensePageState extends State<ExpensePage> {
     'Others'
   ];
 
-  int selectedMonth =
-      DateTime.now().month; // Initially set to the current month
+  int selectedMonth = DateTime.now().month;
+  int selectedYear = DateTime.now().year;
 
   @override
   void initState() {
@@ -47,7 +47,8 @@ class _ExpensePageState extends State<ExpensePage> {
           "-" +
           expense.date.substring(0, 2) +
           "-01");
-      return expenseDate.month == selectedMonth;
+      return expenseDate.month == selectedMonth &&
+          expenseDate.year == selectedYear;
     }).toList();
 
     double totalExpense =
@@ -60,7 +61,52 @@ class _ExpensePageState extends State<ExpensePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                DropdownButton<int>(
+                  value: selectedMonth,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedMonth = newValue!;
+                    });
+                  },
+                  items: [
+                    for (int month = 1; month <= 12; month++)
+                      DropdownMenuItem<int>(
+                        value: month,
+                        child: Text(getMonthName(month)),
+                      ),
+                  ],
+                ),
+                SizedBox(width: 16),
+                DropdownButton<int>(
+                  value: selectedYear,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedYear = newValue!;
+                    });
+                  },
+                  items: [
+                    for (int year = DateTime.now().year; year >= 2020; year--)
+                      DropdownMenuItem<int>(
+                        value: year,
+                        child: Text('$year'),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              controller: _amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: 'Amount',
+              ),
+            ),
+            SizedBox(height: 16),
             DropdownButtonFormField<String>(
               value: _selectedExpenseType,
               onChanged: (newValue) {
@@ -76,14 +122,6 @@ class _ExpensePageState extends State<ExpensePage> {
               }).toList(),
               decoration: InputDecoration(
                 labelText: 'Expense Type',
-              ),
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _amountController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
-                labelText: 'Amount',
               ),
             ),
             SizedBox(height: 16),
@@ -121,22 +159,6 @@ class _ExpensePageState extends State<ExpensePage> {
               ),
             ),
             SizedBox(height: 16),
-            DropdownButton<int>(
-              value: selectedMonth,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedMonth = newValue!;
-                });
-              },
-              items: [
-                for (int month = 1; month <= 12; month++)
-                  DropdownMenuItem<int>(
-                    value: month,
-                    child: Text(getMonthName(month)),
-                  ),
-              ],
-            ),
-            SizedBox(height: 16),
             Text(
               'Total Expense: \$${totalExpense.toStringAsFixed(2)}',
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -169,20 +191,18 @@ class _ExpensePageState extends State<ExpensePage> {
   void _registerExpense() {
     String? expenseType = _selectedExpenseType;
     double amount = double.tryParse(_amountController.text) ?? 0.0;
-    String date = DateFormat('MM/yyyy').format(DateTime.now());
+    String date =
+        DateFormat('MM/yyyy').format(DateTime(selectedYear, selectedMonth));
 
-    // Check if an expense of the same type exists in the same month
     ExpenseItem? existingExpense = expenses.firstWhereOrNull(
       (expense) => expense.expenseType == expenseType && expense.date == date,
     );
 
     if (existingExpense != null) {
-      // Expense of the same type exists in the same month, update its amount
       setState(() {
         existingExpense.amount += amount;
       });
     } else {
-      // Expense of the same type doesn't exist in the same month, add a new expense
       ExpenseItem newExpense = ExpenseItem(
         expenseType: expenseType ?? '',
         amount: amount,
