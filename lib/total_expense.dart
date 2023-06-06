@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'expense.dart';
+import 'income.dart';
 
 class TotalExpensePage extends StatefulWidget {
   @override
@@ -11,7 +14,10 @@ class TotalExpensePage extends StatefulWidget {
 class _TotalExpensePageState extends State<TotalExpensePage> {
   List<ExpenseItem> allExpenses = [];
   List<ExpenseItem> filteredExpenses = [];
+  List<Income> allIncomes = [];
+  List<Income> filteredIncomes = [];
   double totalExpense = 0.0;
+  double totalIncome = 0.0;
   int selectedMonth = DateTime.now().month;
   int selectedYear = DateTime.now().year;
 
@@ -19,6 +25,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
   void initState() {
     super.initState();
     loadExpenses();
+    loadIncomes();
   }
 
   @override
@@ -37,6 +44,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                   setState(() {
                     selectedMonth = newValue!;
                     filterExpensesByMonth();
+                    filterIncomesByMonth();
                   });
                 },
                 items: [
@@ -55,6 +63,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                   setState(() {
                     selectedYear = newValue!;
                     filterExpensesByMonth();
+                    filterIncomesByMonth();
                   });
                 },
                 items: [
@@ -71,7 +80,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: filteredExpenses.length + 1,
+              itemCount: filteredExpenses.length + 2,
               itemBuilder: (context, index) {
                 if (index < filteredExpenses.length) {
                   return ListTile(
@@ -94,6 +103,27 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                     subtitle: Center(
                       child: Text(
                         '\$${totalExpense.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (index == filteredExpenses.length + 1) {
+                  return ListTile(
+                    title: Center(
+                      child: Text(
+                        'Total Income',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    subtitle: Center(
+                      child: Text(
+                        '\$${totalIncome.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -128,6 +158,22 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
     }
   }
 
+  void loadIncomes() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? encodedIncomes = prefs.getStringList('incomes');
+
+    if (encodedIncomes != null) {
+      List<Income> loadedIncomes = encodedIncomes.map((encodedIncome) {
+        return Income.fromJson(jsonDecode(encodedIncome));
+      }).toList();
+
+      setState(() {
+        allIncomes = loadedIncomes;
+        filterIncomesByMonth();
+      });
+    }
+  }
+
   void filterExpensesByMonth() {
     filteredExpenses = allExpenses.where((expense) {
       DateTime expenseDate = DateTime.parse(expense.date.substring(3) +
@@ -145,6 +191,23 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
 
     setState(() {
       totalExpense = sum;
+    });
+  }
+
+  void filterIncomesByMonth() {
+    filteredIncomes = allIncomes.where((income) {
+      DateTime incomeStartDate = DateTime.parse(income.startDate);
+      return incomeStartDate.month == selectedMonth &&
+          incomeStartDate.year == selectedYear;
+    }).toList();
+
+    double sum = 0.0;
+    for (var income in filteredIncomes) {
+      sum += income.amount;
+    }
+
+    setState(() {
+      totalIncome = sum;
     });
   }
 

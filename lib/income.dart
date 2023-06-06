@@ -27,6 +27,10 @@ class _IncomePageState extends State<IncomePage> {
     super.dispose();
   }
 
+  int _getIncomeMonth(DateTime startDate) {
+    return startDate.month;
+  }
+
   Future<void> _loadIncomes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> incomeList = prefs.getStringList('incomes') ?? [];
@@ -39,8 +43,11 @@ class _IncomePageState extends State<IncomePage> {
 
   Future<void> _saveIncomes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> incomeList =
-        _incomes.map((income) => jsonEncode(income.toJson())).toList();
+    List<String> incomeList = _incomes.map((income) {
+      Map<String, dynamic> incomeJson = income.toJson();
+      incomeJson['month'] = _getIncomeMonth(DateTime.parse(income.startDate));
+      return jsonEncode(incomeJson);
+    }).toList();
 
     await prefs.setStringList('incomes', incomeList);
   }
