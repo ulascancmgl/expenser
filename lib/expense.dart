@@ -25,6 +25,9 @@ class _ExpensePageState extends State<ExpensePage> {
     'Others'
   ];
 
+  int selectedMonth =
+      DateTime.now().month; // Initially set to the current month
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +42,17 @@ class _ExpensePageState extends State<ExpensePage> {
 
   @override
   Widget build(BuildContext context) {
+    List<ExpenseItem> filteredExpenses = expenses.where((expense) {
+      DateTime expenseDate = DateTime.parse(expense.date.substring(3) +
+          "-" +
+          expense.date.substring(0, 2) +
+          "-01");
+      return expenseDate.month == selectedMonth;
+    }).toList();
+
+    double totalExpense =
+        filteredExpenses.fold(0, (sum, expense) => sum + expense.amount);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Expense Tracker'),
@@ -80,9 +94,9 @@ class _ExpensePageState extends State<ExpensePage> {
             SizedBox(height: 16),
             Expanded(
               flex: 3,
-              child: expenses.isNotEmpty
+              child: filteredExpenses.isNotEmpty
                   ? SfCircularChart(
-                      series: _getExpenseSeries(),
+                      series: _getExpenseSeries(filteredExpenses),
                       tooltipBehavior: TooltipBehavior(enable: true),
                     )
                   : Center(child: Text('No expenses recorded')),
@@ -91,20 +105,41 @@ class _ExpensePageState extends State<ExpensePage> {
             Expanded(
               flex: 2,
               child: ListView.builder(
-                itemCount: expenses.length,
+                itemCount: filteredExpenses.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(expenses[index].expenseType),
+                    title: Text(filteredExpenses[index].expenseType),
                     subtitle: Text(
-                      'Amount: \$${expenses[index].amount.toStringAsFixed(2)}\nDate: ${expenses[index].date}',
+                      'Amount: \$${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
-                      onPressed: () => _deleteExpense(index),
+                      onPressed: () => _deleteExpense(filteredExpenses[index]),
                     ),
                   );
                 },
               ),
+            ),
+            SizedBox(height: 16),
+            DropdownButton<int>(
+              value: selectedMonth,
+              onChanged: (newValue) {
+                setState(() {
+                  selectedMonth = newValue!;
+                });
+              },
+              items: [
+                for (int month = 1; month <= 12; month++)
+                  DropdownMenuItem<int>(
+                    value: month,
+                    child: Text(getMonthName(month)),
+                  ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Total Expense: \$${totalExpense.toStringAsFixed(2)}',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -112,7 +147,8 @@ class _ExpensePageState extends State<ExpensePage> {
     );
   }
 
-  List<PieSeries<ExpenseItem, String>> _getExpenseSeries() {
+  List<PieSeries<ExpenseItem, String>> _getExpenseSeries(
+      List<ExpenseItem> expenses) {
     List<ExpenseItem> filteredExpenses =
         expenses.where((expense) => expense.amount > 0).toList();
 
@@ -171,9 +207,9 @@ class _ExpensePageState extends State<ExpensePage> {
     prefs.setStringList('expenses', encodedExpenses);
   }
 
-  void _deleteExpense(int index) {
+  void _deleteExpense(ExpenseItem expense) {
     setState(() {
-      expenses.removeAt(index);
+      expenses.remove(expense);
     });
     saveExpenses();
   }
@@ -190,6 +226,37 @@ class _ExpensePageState extends State<ExpensePage> {
       setState(() {
         expenses = loadedExpenses;
       });
+    }
+  }
+
+  String getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return '';
     }
   }
 }
