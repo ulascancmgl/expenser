@@ -1,6 +1,7 @@
 import 'package:expenser/total_expense.dart';
 import 'package:flutter/material.dart';
 
+import 'exchange.dart';
 import 'income.dart';
 import 'expense.dart';
 
@@ -65,6 +66,17 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text('Total Expense'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExchangePage(),
+                  ),
+                );
+              },
+              child: Text('Exchange'),
             ),
           ],
         ),
