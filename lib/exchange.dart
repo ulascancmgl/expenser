@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'currency_utils.dart';
+
 class Currency {
   String symbol;
   String name;
@@ -21,6 +23,7 @@ class _ExchangePageState extends State<ExchangePage> {
   Currency? secondCurrency;
   Map<String, double> exchangeRates = {};
   List<Currency> currencies = [];
+  CurrencyUtils currencyUtils = CurrencyUtils();
 
   @override
   void initState() {
@@ -46,36 +49,14 @@ class _ExchangePageState extends State<ExchangePage> {
         currencies = rates.entries
             .map((entry) => Currency(
                   symbol: entry.key,
-                  name: getCurrencyName(entry.key),
-                  flag: getCurrencyFlag(entry.key),
+                  name: currencyUtils.getCurrencyName(entry.key),
+                  flag: currencyUtils.getCurrencyFlag(entry.key),
                 ))
             .toList();
         firstCurrency = currencies[0];
         secondCurrency = currencies[1];
       });
     }
-  }
-
-  String getCurrencyName(String symbol) {
-    Map<String, String> currencyNames = {
-      'USD': 'United States Dollar',
-      'EUR': 'Euro',
-      'GBP': 'British Pound',
-      'TRY': 'Turkish Lira',
-    };
-
-    return currencyNames[symbol] ?? symbol;
-  }
-
-  String getCurrencyFlag(String symbol) {
-    Map<String, String> currencyFlags = {
-      'USD': '🇺🇸',
-      'EUR': '🇪🇺',
-      'GBP': '🇬🇧',
-      'TRY': '🇹🇷',
-    };
-
-    return currencyFlags[symbol] ?? '';
   }
 
   @override
@@ -123,7 +104,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Select First Currency'),
+                      title: Text('Select Currency'),
                       content: Container(
                         width: double.maxFinite,
                         child: ListView.builder(
@@ -156,7 +137,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'First Currency: ${firstCurrency?.name ?? ""}',
+                      '${firstCurrency?.name ?? ""}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Icon(Icons.arrow_drop_down),
@@ -171,7 +152,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Select Second Currency'),
+                      title: Text('Select Currency'),
                       content: Container(
                         width: double.maxFinite,
                         child: ListView.builder(
@@ -204,7 +185,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Second Currency: ${secondCurrency?.name ?? ""}',
+                      '${secondCurrency?.name ?? ""}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Icon(Icons.arrow_drop_down),
