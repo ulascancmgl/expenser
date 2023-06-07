@@ -99,33 +99,71 @@ class _ExchangePageState extends State<ExchangePage> {
             ),
             SizedBox(height: 16.0),
             InkWell(
-              onTap: () {
-                showDialog(
+              onTap: () async {
+                final selectedCurrency = await showDialog<Currency>(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Select Currency'),
-                      content: Container(
-                        width: double.maxFinite,
-                        child: ListView.builder(
-                          itemCount: currencies.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Currency currency = currencies[index];
-                            return ListTile(
-                              title: Text('${currency.flag} ${currency.name}'),
-                              onTap: () {
-                                setState(() {
-                                  firstCurrency = currency;
-                                });
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        ),
-                      ),
+                    TextEditingController searchController =
+                        TextEditingController();
+
+                    return StatefulBuilder(
+                      builder: (context, setState) {
+                        List<Currency> filteredCurrencies =
+                            currencies.where((currency) {
+                          String searchTerm =
+                              searchController.text.toLowerCase();
+                          String currencyName = currency.name.toLowerCase();
+                          return currencyName.contains(searchTerm);
+                        }).toList();
+
+                        return AlertDialog(
+                          title: Text('Select Currency'),
+                          content: Container(
+                            width: double.maxFinite,
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Search...',
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                                SizedBox(height: 10.0),
+                                Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: filteredCurrencies.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Currency currency =
+                                          filteredCurrencies[index];
+                                      return ListTile(
+                                        title: Text(
+                                            '${currency.flag} ${currency.name}'),
+                                        onTap: () {
+                                          Navigator.pop(context, currency);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 );
+
+                if (selectedCurrency != null) {
+                  setState(() {
+                    firstCurrency = selectedCurrency;
+                  });
+                }
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -137,7 +175,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${firstCurrency?.name ?? ""}',
+                      '${firstCurrency?.name ?? "Select Currency"}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Icon(Icons.arrow_drop_down),
@@ -145,35 +183,72 @@ class _ExchangePageState extends State<ExchangePage> {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
             InkWell(
-              onTap: () {
-                showDialog(
+              onTap: () async {
+                final selectedCurrency = await showDialog<Currency>(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Select Currency'),
-                      content: Container(
-                        width: double.maxFinite,
-                        child: ListView.builder(
-                          itemCount: currencies.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Currency currency = currencies[index];
-                            return ListTile(
-                              title: Text('${currency.flag} ${currency.name}'),
-                              onTap: () {
-                                setState(() {
-                                  secondCurrency = currency;
-                                });
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        ),
-                      ),
+                    TextEditingController searchController =
+                        TextEditingController();
+
+                    return StatefulBuilder(
+                      builder: (context, setState) {
+                        List<Currency> filteredCurrencies =
+                            currencies.where((currency) {
+                          String searchTerm =
+                              searchController.text.toLowerCase();
+                          String currencyName = currency.name.toLowerCase();
+                          return currencyName.contains(searchTerm);
+                        }).toList();
+
+                        return AlertDialog(
+                          title: Text('Select Currency'),
+                          content: Container(
+                            width: double.maxFinite,
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Search...',
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {});
+                                  },
+                                ),
+                                SizedBox(height: 10.0),
+                                Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: filteredCurrencies.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Currency currency =
+                                          filteredCurrencies[index];
+                                      return ListTile(
+                                        title: Text(
+                                            '${currency.flag} ${currency.name}'),
+                                        onTap: () {
+                                          Navigator.pop(context, currency);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 );
+
+                if (selectedCurrency != null) {
+                  setState(() {
+                    secondCurrency = selectedCurrency;
+                  });
+                }
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -185,7 +260,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${secondCurrency?.name ?? ""}',
+                      '${secondCurrency?.name ?? "Select Currency"}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Icon(Icons.arrow_drop_down),
