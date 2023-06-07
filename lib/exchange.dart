@@ -183,6 +183,7 @@ class _ExchangePageState extends State<ExchangePage> {
                 ),
               ),
             ),
+            SizedBox(height: 16.0),
             InkWell(
               onTap: () async {
                 final selectedCurrency = await showDialog<Currency>(

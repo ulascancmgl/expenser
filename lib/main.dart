@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'exchange.dart';
 import 'income.dart';
 import 'expense.dart';
+import 'inflation.dart';
 
 void main() {
   runApp(ExpenseCalculatorApp());
@@ -66,6 +67,17 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text('Total Expense'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InflationPage(),
+                  ),
+                );
+              },
+              child: Text('Inflation'),
             ),
             ElevatedButton(
               onPressed: () {
