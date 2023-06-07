@@ -2,6 +2,7 @@ import 'package:expenser/calculate_buy.dart';
 import 'package:expenser/total_expense.dart';
 import 'package:flutter/material.dart';
 
+import 'calc_to_buy.dart';
 import 'exchange.dart';
 import 'income.dart';
 import 'expense.dart';
@@ -79,6 +80,17 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text('Inflation'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CalcToBuyPage(),
+                  ),
+                );
+              },
+              child: Text('Calculate To Buy'),
             ),
             ElevatedButton(
               onPressed: () {
