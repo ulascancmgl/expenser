@@ -40,6 +40,16 @@ class _ExpensePageState extends State<ExpensePage> {
     super.dispose();
   }
 
+  final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Colors.indigo,
+    foregroundColor: Colors.white,
+    textStyle: TextStyle(fontSize: 16),
+    fixedSize: Size(250, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     List<ExpenseItem> filteredExpenses = expenses.where((expense) {
@@ -57,6 +67,7 @@ class _ExpensePageState extends State<ExpensePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Expense Tracker'),
+        backgroundColor: Colors.indigo,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -127,6 +138,7 @@ class _ExpensePageState extends State<ExpensePage> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: _registerExpense,
+              style: elevatedButtonStyle,
               child: Text('Add Expense'),
             ),
             SizedBox(height: 16),

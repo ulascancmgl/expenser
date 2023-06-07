@@ -28,11 +28,13 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
     loadIncomes();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Total Expenses'),
+        backgroundColor: Colors.indigo,
       ),
       body: Column(
         children: [

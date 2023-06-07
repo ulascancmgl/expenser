@@ -97,6 +97,19 @@ class _IncomePageState extends State<IncomePage> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.indigo,
+              backgroundColor: Colors.white,
+              cardColor: Colors.indigo,
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate != null) {
@@ -106,11 +119,22 @@ class _IncomePageState extends State<IncomePage> {
     }
   }
 
+  final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Colors.indigo,
+    foregroundColor: Colors.white,
+    textStyle: TextStyle(fontSize: 16),
+    fixedSize: Size(250, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Income Page'),
+        backgroundColor: Colors.indigo,
       ),
       body: Column(
         children: [
@@ -126,6 +150,7 @@ class _IncomePageState extends State<IncomePage> {
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () => _showDatePicker(context),
+                  style: elevatedButtonStyle,
                   child: Text(_startDate == true
                       ? 'Select Start Date'
                       : 'Start Date: ${_startDate.toString().substring(0, 10)}'),
@@ -133,6 +158,7 @@ class _IncomePageState extends State<IncomePage> {
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: _addIncome,
+                  style: elevatedButtonStyle,
                   child: Text('Add Income'),
                 ),
               ],

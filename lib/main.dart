@@ -28,16 +28,28 @@ class ExpenseCalculatorApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Colors.indigo,
+    foregroundColor: Colors.white,
+    textStyle: TextStyle(fontSize: 16),
+    fixedSize: Size(250, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Expense Calculator'),
+        backgroundColor: Colors.indigo,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -47,8 +59,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Income'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -58,8 +72,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Expense'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -69,8 +85,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Total Expense'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -80,8 +98,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Inflation'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -91,8 +111,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('How much to spend daily'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -102,8 +124,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Calculate To Buy'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -113,8 +137,10 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Calculate Loan'),
             ),
+            SizedBox(height: 8.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -124,6 +150,7 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
+              style: elevatedButtonStyle,
               child: Text('Exchange'),
             ),
           ],

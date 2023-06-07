@@ -35,11 +35,22 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
     });
   }
 
+  final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Colors.indigo,
+    foregroundColor: Colors.white,
+    textStyle: TextStyle(fontSize: 16),
+    fixedSize: Size(250, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Calculate Loan Page'),
+        backgroundColor: Colors.indigo,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -94,6 +105,7 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
+                style: elevatedButtonStyle,
                 child: Text('Calculate'),
                 onPressed: calculateLoan,
               ),
