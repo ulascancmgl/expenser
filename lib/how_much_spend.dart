@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class HowMuchToSpend extends StatefulWidget {
   @override
@@ -15,17 +13,11 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
   TextEditingController subtractValueController = TextEditingController();
   int remainingDays = 0;
   double dailyExpense = 0.0;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  late AndroidNotificationChannel channel;
-  bool notificationPermissionGranted = false;
-  bool showNotificationButton = true;
 
   @override
   void initState() {
     super.initState();
     loadSavedData();
-    initializeNotifications();
   }
 
   @override
@@ -52,7 +44,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
     DateTime futureDate =
         DateFormat('yyyy-MM-dd').parse(futureDateController.text);
     DateTime currentDate = DateTime.now();
-    int daysRemaining = futureDate.difference(currentDate).inDays;
+    int daysRemaining = futureDate.difference(currentDate).inDays + 1;
     double expense = income / daysRemaining;
     await prefs.setDouble('income', income);
     await prefs.setString('futureDate', futureDateController.text);
@@ -107,87 +99,6 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
     calculateExpense();
 
     saveData();
-
-    saveSubtractedValue(updatedIncome, DateTime.now());
-  }
-
-  Future<void> saveSubtractedValue(double value, DateTime date) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    double subtractedValue = double.parse(subtractValueController.text);
-    String subtractedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
-
-    List<String>? previousValues = prefs.getStringList('subtractedValues');
-
-    List<String> updatedValues = [];
-    if (previousValues != null) {
-      updatedValues.addAll(previousValues);
-    }
-    updatedValues.add('$subtractedValue;$subtractedDate');
-
-    await prefs.setStringList('subtractedValues', updatedValues);
-  }
-
-  Future<void> initializeNotifications() async {
-    channel = const AndroidNotificationChannel(
-      'reminder_channel',
-      'Reminder Channel',
-      description: 'Channel for daily reminders',
-      importance: Importance.high,
-    );
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    await requestNotificationPermission();
-
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  Future<void> requestNotificationPermission() async {
-    final status = await Permission.notification.request();
-    notificationPermissionGranted = status.isGranted;
-    if (notificationPermissionGranted) {
-      setState(() {
-        showNotificationButton = false;
-      });
-    }
-  }
-
-  Future<void> showDailyNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'channel_id',
-      'channel_name',
-      channelShowBadge: true,
-      importance: Importance.max,
-      priority: Priority.high,
-    );
-    var platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'Daily Notification',
-      'A notification redirected to this page!',
-      platformChannelSpecifics,
-      payload: 'notification',
-    );
-  }
-
-  void showNotificationRequest() async {
-    if (notificationPermissionGranted) {
-      showDailyNotification();
-    } else {
-      await requestNotificationPermission();
-    }
   }
 
   void calculateExpense() {
@@ -309,19 +220,6 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                       ),
                     ),
                   ],
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Visibility(
-                visible: showNotificationButton,
-                child: ElevatedButton(
-                  onPressed: showNotificationRequest,
-                  child: Text('Request Notification'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.indigo,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.all(16.0),
-                  ),
                 ),
               ),
             ],
