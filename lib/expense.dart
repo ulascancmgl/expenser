@@ -148,7 +148,7 @@ class _ExpensePageState extends State<ExpensePage> {
                   return ListTile(
                     title: Text(filteredExpenses[index].expenseType),
                     subtitle: Text(
-                      'Amount: \$${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
+                      'Amount: ${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
@@ -160,7 +160,7 @@ class _ExpensePageState extends State<ExpensePage> {
             ),
             SizedBox(height: 16),
             Text(
-              'Total Expense: \$${totalExpense.toStringAsFixed(2)}',
+              'Total Expense: ${totalExpense.toStringAsFixed(2)}',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],

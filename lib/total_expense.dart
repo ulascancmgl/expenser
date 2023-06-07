@@ -86,7 +86,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                   return ListTile(
                     title: Text(filteredExpenses[index].expenseType),
                     subtitle: Text(
-                      'Amount: \$${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
+                      'Amount: ${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
                     ),
                   );
                 } else if (index == filteredExpenses.length) {
@@ -102,7 +102,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                     ),
                     subtitle: Center(
                       child: Text(
-                        '\$${totalExpense.toStringAsFixed(2)}',
+                        '${totalExpense.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -123,7 +123,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                     ),
                     subtitle: Center(
                       child: Text(
-                        '\$${totalIncome.toStringAsFixed(2)}',
+                        '${totalIncome.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
