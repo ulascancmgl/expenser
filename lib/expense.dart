@@ -7,6 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ExpensePage extends StatefulWidget {
+  final String currentLanguage;
+
+  ExpensePage({required this.currentLanguage});
+
   @override
   _ExpensePageState createState() => _ExpensePageState();
 }
@@ -40,6 +44,69 @@ class _ExpensePageState extends State<ExpensePage> {
     super.dispose();
   }
 
+  Map<String, Map<String, String>> allTranslations = {
+    'en': {
+      'Expense Tracker': 'Expense Tracker',
+      'Total Expenses': 'Total Expenses',
+      'Amount': 'Amount',
+      'Expense Type': 'Expense Type',
+      'Add Expense': 'Add Expense',
+      'No expenses recorded': 'No expenses recorded',
+      'Total Expense': 'Total Expense',
+      'January': 'January',
+      'February': 'February',
+      'March': 'March',
+      'April': 'April',
+      'May': 'May',
+      'June': 'June',
+      'July': 'July',
+      'August': 'August',
+      'September': 'September',
+      'October': 'October',
+      'November': 'November',
+      'December': 'December',
+      'Food': 'Food',
+      'Transportation': 'Transportation',
+      'Shopping': 'Shopping',
+      'Entertainment': 'Entertainment',
+      'Bills': 'Bills',
+      'Others': 'Others',
+    },
+    'tr': {
+      'Expense Tracker': 'Harcama Takipçisi',
+      'Total Expenses': 'Toplam Harcamalar',
+      'Amount': 'Miktar',
+      'Expense Type': 'Harcama Türü',
+      'Add Expense': 'Harcama Ekle',
+      'No expenses recorded': 'Kaydedilen harcama yok',
+      'Total Expense': 'Toplam Harcama',
+      'January': 'Ocak',
+      'February': 'Şubat',
+      'March': 'Mart',
+      'April': 'Nisan',
+      'May': 'Mayıs',
+      'June': 'Haziran',
+      'July': 'Temmuz',
+      'August': 'Ağustos',
+      'September': 'Eylül',
+      'October': 'Ekim',
+      'November': 'Kasım',
+      'December': 'Aralık',
+      'Food': 'Yemek',
+      'Transportation': 'Ulaşım',
+      'Shopping': 'Alışveriş',
+      'Entertainment': 'Eğlence',
+      'Bills': 'Faturalar',
+      'Others': 'Diğer',
+    },
+  };
+
+  String _getTranslatedString(String key) {
+    Map<String, String> translations =
+        allTranslations[widget.currentLanguage] ?? {};
+    return translations[key] ?? key;
+  }
+
   final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.indigo,
     foregroundColor: Colors.white,
@@ -66,7 +133,7 @@ class _ExpensePageState extends State<ExpensePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense Tracker'),
+        title: Text(_getTranslatedString('Expense Tracker')),
         backgroundColor: Colors.indigo,
       ),
       body: Padding(
@@ -87,7 +154,7 @@ class _ExpensePageState extends State<ExpensePage> {
                     for (int month = 1; month <= 12; month++)
                       DropdownMenuItem<int>(
                         value: month,
-                        child: Text(getMonthName(month)),
+                        child: Text(_getTranslatedString(getMonthName(month))),
                       ),
                   ],
                 ),
@@ -114,7 +181,7 @@ class _ExpensePageState extends State<ExpensePage> {
               controller: _amountController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
-                labelText: 'Amount',
+                labelText: _getTranslatedString('Amount'),
               ),
             ),
             SizedBox(height: 16),
@@ -128,18 +195,18 @@ class _ExpensePageState extends State<ExpensePage> {
               items: expenseTypes.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(_getTranslatedString(value)),
                 );
               }).toList(),
               decoration: InputDecoration(
-                labelText: 'Expense Type',
+                labelText: _getTranslatedString('Expense Type'),
               ),
             ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: _registerExpense,
               style: elevatedButtonStyle,
-              child: Text('Add Expense'),
+              child: Text(_getTranslatedString('Add Expense')),
             ),
             SizedBox(height: 16),
             Expanded(
@@ -149,7 +216,9 @@ class _ExpensePageState extends State<ExpensePage> {
                       series: _getExpenseSeries(filteredExpenses),
                       tooltipBehavior: TooltipBehavior(enable: true),
                     )
-                  : Center(child: Text('No expenses recorded')),
+                  : Center(
+                      child:
+                          Text(_getTranslatedString('No expenses recorded'))),
             ),
             SizedBox(height: 16),
             Expanded(
@@ -158,9 +227,9 @@ class _ExpensePageState extends State<ExpensePage> {
                 itemCount: filteredExpenses.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(filteredExpenses[index].expenseType),
+                    title: Text(_getTranslatedString(filteredExpenses[index].expenseType)),
                     subtitle: Text(
-                      'Amount: ${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
+                      '${_getTranslatedString('Amount')}: ${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date')}: ${filteredExpenses[index].date}',
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
@@ -172,7 +241,7 @@ class _ExpensePageState extends State<ExpensePage> {
             ),
             SizedBox(height: 16),
             Text(
-              'Total Expense: ${totalExpense.toStringAsFixed(2)}',
+              '${_getTranslatedString('Total Expense')}: ${totalExpense.toStringAsFixed(2)}',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
@@ -189,7 +258,8 @@ class _ExpensePageState extends State<ExpensePage> {
     return <PieSeries<ExpenseItem, String>>[
       PieSeries<ExpenseItem, String>(
         dataSource: filteredExpenses,
-        xValueMapper: (ExpenseItem expense, _) => expense.expenseType,
+        xValueMapper: (ExpenseItem expense, _) =>
+            _getTranslatedString(expense.expenseType),
         yValueMapper: (ExpenseItem expense, _) => expense.amount,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,

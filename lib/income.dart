@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IncomePage extends StatefulWidget {
+  final String currentLanguage;
+
+  IncomePage({required this.currentLanguage});
+
   @override
   _IncomePageState createState() => _IncomePageState();
 }
@@ -12,6 +16,39 @@ class _IncomePageState extends State<IncomePage> {
   late TextEditingController _amountController;
   late DateTime _startDate;
   List<Income> _incomes = [];
+
+  Map<String, Map<String, String>> allTranslations = {
+    'en': {
+      'Income Page': 'Income Page',
+      'Amount': 'Amount',
+      'Select Start Date': 'Select Start Date',
+      'Start Date': 'Start Date',
+      'End Date': 'End Date',
+      'Add Income': 'Add Income',
+      'Update Income Amount': 'Update Income Amount',
+      'Save': 'Save',
+      'Edit': 'Edit',
+      'Delete': 'Delete',
+    },
+    'tr': {
+      'Income Page': 'Gelir Sayfası',
+      'Amount': 'Miktar',
+      'Select Start Date': 'Başlangıç Tarihini Seç',
+      'Start Date': 'Başlangıç Tarihi',
+      'End Date': 'Bitiş Tarihi',
+      'Add Income': 'Gelir Ekle',
+      'Update Income Amount': 'Gelir Miktarını Güncelle',
+      'Save': 'Kaydet',
+      'Edit': 'Düzenle',
+      'Delete': 'Sil',
+    },
+  };
+
+  String _getTranslatedString(String key) {
+    Map<String, String> translations =
+        allTranslations[widget.currentLanguage] ?? {};
+    return translations[key] ?? key;
+  }
 
   @override
   void initState() {
@@ -107,9 +144,21 @@ class _IncomePageState extends State<IncomePage> {
             ),
             dialogBackgroundColor: Colors.white,
           ),
-          child: child!,
+          child: Builder(
+            builder: (context) {
+              return Column(
+                children: [
+                  SizedBox(height: 16),
+                  child!,
+                ],
+              );
+            },
+          ),
         );
       },
+      confirmText: widget.currentLanguage == 'tr' ? 'Seç' : 'OK',
+      cancelText: widget.currentLanguage == 'tr' ? 'Vazgeç' : 'CANCEL',
+      helpText: widget.currentLanguage == 'tr' ? 'Tarih Seçin' : 'SELECT DATE',
     );
 
     if (pickedDate != null) {
@@ -133,7 +182,7 @@ class _IncomePageState extends State<IncomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Income Page'),
+        title: Text(_getTranslatedString('Income Page')),
         backgroundColor: Colors.indigo,
       ),
       body: Column(
@@ -145,21 +194,22 @@ class _IncomePageState extends State<IncomePage> {
                 TextField(
                   controller: _amountController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: 'Amount'),
+                  decoration: InputDecoration(
+                      labelText: _getTranslatedString('Amount')),
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () => _showDatePicker(context),
                   style: elevatedButtonStyle,
                   child: Text(_startDate == true
-                      ? 'Select Start Date'
-                      : 'Start Date: ${_startDate.toString().substring(0, 10)}'),
+                      ? _getTranslatedString('Select Start Date')
+                      : '${_getTranslatedString('Start Date')}: ${_startDate.toString().substring(0, 10)}'),
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: _addIncome,
                   style: elevatedButtonStyle,
-                  child: Text('Add Income'),
+                  child: Text(_getTranslatedString('Add Income')),
                 ),
               ],
             ),
@@ -170,12 +220,15 @@ class _IncomePageState extends State<IncomePage> {
               itemBuilder: (context, index) {
                 Income income = _incomes[index];
                 return ListTile(
-                  title: Text('Amount: ${income.amount.toStringAsFixed(2)}'),
+                  title: Text(
+                      '${_getTranslatedString('Amount')}: ${income.amount.toStringAsFixed(2)}'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Start Date: ${income.startDate.substring(0, 10)}'),
-                      Text('End Date: ${income.endDate.substring(0, 10)}'),
+                      Text(
+                          '${_getTranslatedString('Start Date')}: ${income.startDate.substring(0, 10)}'),
+                      Text(
+                          '${_getTranslatedString('End Date')}: ${income.endDate.substring(0, 10)}'),
                     ],
                   ),
                   trailing: Row(
@@ -205,7 +258,7 @@ class _IncomePageState extends State<IncomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Update Income Amount'),
+          title: Text(_getTranslatedString('Update Income Amount')),
           content: TextField(
             keyboardType: TextInputType.number,
             controller:
@@ -222,7 +275,7 @@ class _IncomePageState extends State<IncomePage> {
                 Navigator.pop(context);
                 _updateIncome(index, _incomes[index].amount);
               },
-              child: Text('Save'),
+              child: Text(_getTranslatedString('Save')),
             ),
           ],
         );

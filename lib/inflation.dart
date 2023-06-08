@@ -4,6 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'model.dart';
 
 class InflationPage extends StatefulWidget {
+  final String currentLanguage;
+
+  InflationPage({required this.currentLanguage});
+
   @override
   _InflationPageState createState() => _InflationPageState();
 }
@@ -15,6 +19,53 @@ class _InflationPageState extends State<InflationPage> {
   final Map<int, TextEditingController> newValueControllers = {};
 
   String selectedCategory = 'Food';
+
+  Map<String, Map<String, String>> allTranslations = {
+    'en': {
+      'Food': 'Food',
+      'Transportation': 'Transportation',
+      'Shopping': 'Shopping',
+      'Entertainment': 'Entertainment',
+      'Bills': 'Bills',
+      'Others': 'Others',
+      'Product Name': 'Product Name',
+      'Initial Value': 'Initial Value',
+      'Save': 'Save',
+      'Update': 'Update',
+      'New Value': 'New Value',
+      'Inflation Page': 'Inflation Page',
+      'Calculate': 'Calculate',
+      'Reset': 'Reset',
+      'Remaining Days:': 'Remaining Days:',
+      'Daily Expense Amount:': 'Daily Expense Amount:',
+      'Inflation': 'Inflation',
+    },
+    'tr': {
+      'Food': 'Yiyecek',
+      'Transportation': 'Ulaşım',
+      'Shopping': 'Alışveriş',
+      'Entertainment': 'Eğlence',
+      'Bills': 'Faturalar',
+      'Others': 'Diğerleri',
+      'Product Name': 'Ürün Adı',
+      'Initial Value': 'İlk Değer',
+      'Save': 'Kaydet',
+      'Update': 'Güncelle',
+      'New Value': 'Yeni Değer',
+      'Inflation Page': 'Enflasyon Sayfası',
+      'Calculate': 'Hesapla',
+      'Reset': 'Sıfırla',
+      'Remaining Days:': 'Kalan Günler:',
+      'Daily Expense Amount:': 'Günlük Harcama Miktarı:',
+      'Inflation': 'Enflasyon',
+    },
+  };
+
+  String _getTranslatedString(String key) {
+    Map<String, String> translations =
+        allTranslations[widget.currentLanguage] ?? {};
+    return translations[key] ?? key;
+  }
 
   @override
   void didChangeDependencies() {
@@ -69,7 +120,7 @@ class _InflationPageState extends State<InflationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'App Name',
+          'Inflation Page',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.0,
@@ -93,7 +144,7 @@ class _InflationPageState extends State<InflationPage> {
             ].map((category) {
               return DropdownMenuItem<String>(
                 value: category,
-                child: Text(category),
+                child: Text(_getTranslatedString(category)),
               );
             }).toList(),
             onChanged: (value) {
@@ -108,7 +159,7 @@ class _InflationPageState extends State<InflationPage> {
             child: TextField(
               controller: nameController,
               decoration: InputDecoration(
-                labelText: 'Name',
+                labelText: _getTranslatedString('Product Name'),
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -125,7 +176,7 @@ class _InflationPageState extends State<InflationPage> {
               controller: initialValueController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Initial Value',
+                labelText: _getTranslatedString('Initial Value'),
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -138,7 +189,7 @@ class _InflationPageState extends State<InflationPage> {
           SizedBox(height: 16.0),
           ElevatedButton(
             child: Text(
-              'Save',
+              _getTranslatedString('Save'),
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
@@ -200,7 +251,8 @@ class _InflationPageState extends State<InflationPage> {
                                   children: [
                                     Text('$value'),
                                     SizedBox(width: 8.0),
-                                    Text('Inflation: $inflation%'),
+                                    Text(_getTranslatedString('Inflation') +
+                                        ': $inflation%'),
                                   ],
                                 ),
                               );
@@ -213,7 +265,7 @@ class _InflationPageState extends State<InflationPage> {
                               controller: newValueControllers[index],
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                labelText: 'New Value',
+                                labelText: _getTranslatedString('New Value'),
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding:
@@ -230,7 +282,7 @@ class _InflationPageState extends State<InflationPage> {
                             children: [
                               ElevatedButton(
                                 child: Text(
-                                  'Update',
+                                  _getTranslatedString('Update'),
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,

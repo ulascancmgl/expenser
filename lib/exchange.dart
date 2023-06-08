@@ -13,6 +13,10 @@ class Currency {
 }
 
 class ExchangePage extends StatefulWidget {
+  final String currentLanguage;
+
+  ExchangePage({required this.currentLanguage});
+
   @override
   _ExchangePageState createState() => _ExchangePageState();
 }
@@ -29,6 +33,33 @@ class _ExchangePageState extends State<ExchangePage> {
   void initState() {
     super.initState();
     _fetchExchangeRates();
+  }
+
+  Map<String, Map<String, String>> allTranslations = {
+    'en': {
+      'Currency Converter': 'Currency Converter',
+      'Amount': 'Amount',
+      'Select Currency': 'Select Currency',
+      'Convert': 'Convert',
+      'Converted Amount': 'Converted Amount',
+      'Close': 'Close',
+      'Search...': 'Search...',
+    },
+    'tr': {
+      'Currency Converter': 'Para Dönüştürücüsü',
+      'Amount': 'Miktar',
+      'Select Currency': 'Para Birimi Seç',
+      'Convert': 'Dönüştür',
+      'Converted Amount': 'Dönüştürülen Miktar',
+      'Close': 'Kapat',
+      'Search...': 'Ara...',
+    },
+  };
+
+  String _getTranslatedString(String key) {
+    Map<String, String> translations =
+        allTranslations[widget.currentLanguage] ?? {};
+    return translations[key] ?? key;
   }
 
   Future<void> _fetchExchangeRates() async {
@@ -64,7 +95,7 @@ class _ExchangePageState extends State<ExchangePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Currency Converter',
+        _getTranslatedString('Currency Converter'),
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.0,
@@ -88,7 +119,7 @@ class _ExchangePageState extends State<ExchangePage> {
                 });
               },
               decoration: InputDecoration(
-                labelText: 'Amount',
+                labelText: _getTranslatedString('Amount'),
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -117,7 +148,7 @@ class _ExchangePageState extends State<ExchangePage> {
                         }).toList();
 
                         return AlertDialog(
-                          title: Text('Select Currency'),
+                          title: Text(_getTranslatedString('Select Currency')),
                           content: Container(
                             width: double.maxFinite,
                             child: Column(
@@ -125,7 +156,7 @@ class _ExchangePageState extends State<ExchangePage> {
                                 TextField(
                                   controller: searchController,
                                   decoration: InputDecoration(
-                                    hintText: 'Search...',
+                                    hintText: _getTranslatedString('Search...'),
                                   ),
                                   onChanged: (value) {
                                     setState(() {});
@@ -175,7 +206,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${firstCurrency?.name ?? "Select Currency"}',
+                      '${firstCurrency?.name ?? _getTranslatedString("Select Currency")}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Icon(Icons.arrow_drop_down),
@@ -203,7 +234,7 @@ class _ExchangePageState extends State<ExchangePage> {
                         }).toList();
 
                         return AlertDialog(
-                          title: Text('Select Currency'),
+                          title: Text(_getTranslatedString('Select Currency')),
                           content: Container(
                             width: double.maxFinite,
                             child: Column(
@@ -211,7 +242,7 @@ class _ExchangePageState extends State<ExchangePage> {
                                 TextField(
                                   controller: searchController,
                                   decoration: InputDecoration(
-                                    hintText: 'Search...',
+                                    hintText: _getTranslatedString('Search...'),
                                   ),
                                   onChanged: (value) {
                                     setState(() {});
@@ -261,7 +292,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${secondCurrency?.name ?? "Select Currency"}',
+                      '${secondCurrency?.name ?? _getTranslatedString("Select Currency")}',
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Icon(Icons.arrow_drop_down),
@@ -272,7 +303,7 @@ class _ExchangePageState extends State<ExchangePage> {
             SizedBox(height: 16.0),
             ElevatedButton(
               child: Text(
-                'Convert',
+                _getTranslatedString('Convert'),
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -299,12 +330,12 @@ class _ExchangePageState extends State<ExchangePage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Converted Amount'),
+                        title: Text(_getTranslatedString('Converted Amount')),
                         content: Text(
                             '$amount ${firstCurrency!.symbol} = $convertedAmount ${secondCurrency!.symbol}'),
                         actions: [
                           TextButton(
-                            child: Text('Close'),
+                            child: Text(_getTranslatedString('Close')),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },

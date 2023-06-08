@@ -3,6 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HowMuchToSpend extends StatefulWidget {
+  final String currentLanguage;
+
+  HowMuchToSpend({required this.currentLanguage});
+
   @override
   _HowMuchToSpendState createState() => _HowMuchToSpendState();
 }
@@ -13,6 +17,37 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
   TextEditingController subtractValueController = TextEditingController();
   int remainingDays = 0;
   double dailyExpense = 0.0;
+
+  String _getTranslatedString(String key) {
+    Map<String, String> translations =
+        allTranslations[widget.currentLanguage] ?? {};
+    return translations[key] ?? key;
+  }
+
+  Map<String, Map<String, String>> allTranslations = {
+    'en': {
+      'How Much Can I Spend?': 'How Much Can I Spend?',
+      'Income Amount': 'Income Amount',
+      'Future Date (yyyy-MM-dd)': 'Future Date (yyyy-MM-dd)',
+      'Calculate': 'Calculate',
+      'Subtraction Value': 'Subtraction Value',
+      'Subtract from Value': 'Subtract from Value',
+      'Remaining Days:': 'Remaining Days:',
+      'Daily Expense Amount:': 'Daily Expense Amount:',
+      'Reset': 'Reset',
+    },
+    'tr': {
+      'How Much Can I Spend?': 'Ne Kadar Harcayabilirim?',
+      'Income Amount': 'Gelir Miktarı',
+      'Future Date (yyyy-MM-dd)': 'Gelecek Tarih (yyyy-AA-gg)',
+      'Calculate': 'Hesapla',
+      'Subtraction Value': 'Çıkarma Değeri',
+      'Subtract from Value': 'Değerden Çıkar',
+      'Remaining Days:': 'Kalan Günler:',
+      'Daily Expense Amount:': 'Günlük Harcama Miktarı:',
+      'Reset': 'Sıfırla',
+    },
+  };
 
   @override
   void initState() {
@@ -64,8 +99,33 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.indigo,
+              backgroundColor: Colors.white,
+              cardColor: Colors.indigo,
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: Builder(
+            builder: (context) {
+              return Column(
+                children: [
+                  SizedBox(height: 16),
+                  child!,
+                ],
+              );
+            },
+          ),
+        );
+      },
+      confirmText: widget.currentLanguage == 'tr' ? 'Seç' : 'OK',
+      cancelText: widget.currentLanguage == 'tr' ? 'Vazgeç' : 'CANCEL',
+      helpText: widget.currentLanguage == 'tr' ? 'Tarih Seçin' : 'SELECT DATE',
     );
 
     if (selectedDate != null) {
@@ -121,7 +181,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
           },
         ),
         title: Text(
-          "How Much Can I Spend?",
+          _getTranslatedString("How Much Can I Spend?"),
           style: TextStyle(
             color: Colors.blue,
           ),
@@ -138,7 +198,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                 controller: incomeController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: 'Income Amount',
+                  labelText: _getTranslatedString('Income Amount'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -150,7 +210,8 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                     controller: futureDateController,
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(
-                      labelText: 'Future Date (yyyy-MM-dd)',
+                      labelText:
+                          _getTranslatedString('Future Date (yyyy-MM-dd)'),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -159,7 +220,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: calculateExpense,
-                child: Text('Calculate'),
+                child: Text(_getTranslatedString('Calculate')),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.indigo,
                   foregroundColor: Colors.white,
@@ -171,7 +232,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                 controller: subtractValueController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: 'Subtraction Value',
+                  labelText: _getTranslatedString('Subtraction Value'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -179,7 +240,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
               ElevatedButton(
                 onPressed: subtractValue,
                 child: Text(
-                  'Subtract from Value',
+                  _getTranslatedString('Subtract from Value'),
                   style: TextStyle(fontSize: 16.0),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -194,14 +255,14 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                 child: Column(
                   children: [
                     Text(
-                      'Remaining Days: ${remainingDays != 0 ? remainingDays : ''}',
+                      '${_getTranslatedString('Remaining Days:')} ${remainingDays != 0 ? remainingDays : ''}',
                       style: TextStyle(fontSize: 18.0),
                     ),
                     SizedBox(height: 8.0),
                     Visibility(
                       visible: dailyExpense > 0,
                       child: Text(
-                        'Daily Expense Amount: $dailyExpense',
+                        '${_getTranslatedString('Daily Expense Amount:')} $dailyExpense',
                         style: TextStyle(fontSize: 18.0),
                       ),
                     ),
@@ -209,7 +270,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                     ElevatedButton(
                       onPressed: resetData,
                       child: Text(
-                        'Reset',
+                        _getTranslatedString('Reset'),
                         style: TextStyle(fontSize: 16.0),
                       ),
                       style: ElevatedButton.styleFrom(

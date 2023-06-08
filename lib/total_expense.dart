@@ -7,6 +7,10 @@ import 'expense.dart';
 import 'income.dart';
 
 class TotalExpensePage extends StatefulWidget {
+  final String currentLanguage;
+
+  TotalExpensePage({required this.currentLanguage});
+
   @override
   _TotalExpensePageState createState() => _TotalExpensePageState();
 }
@@ -21,6 +25,54 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
   int selectedMonth = DateTime.now().month;
   int selectedYear = DateTime.now().year;
 
+  String _getTranslatedString(String key) {
+    Map<String, String> translations =
+        allTranslations[widget.currentLanguage] ?? {};
+    return translations[key] ?? key;
+  }
+
+  Map<String, Map<String, String>> allTranslations = {
+    'en': {
+      'Total Expenses': 'Total Expenses',
+      'Total Expense': 'Total Expense',
+      'Total Income': 'Total Income',
+      'Amount: ': 'Amount: ',
+      'Date: ': 'Date: ',
+      'January': 'January',
+      'February': 'February',
+      'March': 'March',
+      'April': 'April',
+      'May': 'May',
+      'June': 'June',
+      'July': 'July',
+      'August': 'August',
+      'September': 'September',
+      'October': 'October',
+      'November': 'November',
+      'December': 'December',
+    },
+    'tr': {
+      'Total Expenses': 'Toplam Harcamalar',
+      'Total Expense': 'Toplam Harcama',
+      'Total Income': 'Toplam Gelir',
+      'Amount: ': 'Miktar: ',
+      'Date: ': 'Tarih: ',
+      'January': 'Ocak',
+      'February': 'Şubat',
+      'March': 'Mart',
+      'April': 'Nisan',
+      'May': 'Mayıs',
+      'June': 'Haziran',
+      'July': 'Temmuz',
+      'August': 'Ağustos',
+      'September': 'Eylül',
+      'October': 'Ekim',
+      'November': 'Kasım',
+      'December': 'Aralık',
+    },
+  };
+
+
   @override
   void initState() {
     super.initState();
@@ -28,12 +80,11 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
     loadIncomes();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Total Expenses'),
+        title: Text(_getTranslatedString('Total Expenses')),
         backgroundColor: Colors.indigo,
       ),
       body: Column(
@@ -54,7 +105,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                     DropdownMenuItem<int>(
                       value: month,
                       child: Text(
-                        '${getMonthName(month)}',
+                        _getTranslatedString('${getMonthName(month)}'),
                       ),
                     ),
                 ],
@@ -88,14 +139,14 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                   return ListTile(
                     title: Text(filteredExpenses[index].expenseType),
                     subtitle: Text(
-                      'Amount: ${filteredExpenses[index].amount.toStringAsFixed(2)}\nDate: ${filteredExpenses[index].date}',
+                      '${_getTranslatedString('Amount: ')}${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date: ')}${filteredExpenses[index].date}',
                     ),
                   );
                 } else if (index == filteredExpenses.length) {
                   return ListTile(
                     title: Center(
                       child: Text(
-                        'Total Expense',
+                        _getTranslatedString('Total Expense'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -116,7 +167,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                   return ListTile(
                     title: Center(
                       child: Text(
-                        'Total Income',
+                      _getTranslatedString('Total Income'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
