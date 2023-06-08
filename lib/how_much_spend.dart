@@ -35,6 +35,9 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
       'Remaining Days:': 'Remaining Days:',
       'Daily Expense Amount:': 'Daily Expense Amount:',
       'Reset': 'Reset',
+      'OK': 'OK',
+      'Cancel': 'Cancel',
+      'Select Date': 'Select Date',
     },
     'tr': {
       'How Much Can I Spend?': 'Ne Kadar Harcayabilirim?',
@@ -46,6 +49,23 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
       'Remaining Days:': 'Kalan Günler:',
       'Daily Expense Amount:': 'Günlük Harcama Miktarı:',
       'Reset': 'Sıfırla',
+      'OK': 'Seç',
+      'Cancel': 'Vazgeç',
+      'Select Date': 'Tarih Seçin',
+    },
+    'fr': {
+      'How Much Can I Spend?': 'Combien puis-je dépenser ?',
+      'Income Amount': 'Montant des revenus',
+      'Future Date (yyyy-MM-dd)': 'Date future (aaaa-MM-jj)',
+      'Calculate': 'Calculer',
+      'Subtraction Value': 'Valeur à soustraire',
+      'Subtract from Value': 'Soustraire de la valeur',
+      'Remaining Days:': 'Jours restants :',
+      'Daily Expense Amount:': 'Montant des dépenses quotidiennes :',
+      'Reset': 'Réinitialiser',
+      'OK': 'OK',
+      'Cancel': 'Annuler',
+      'Select Date': 'Sélectionner la date',
     },
   };
 
@@ -123,9 +143,9 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
           ),
         );
       },
-      confirmText: widget.currentLanguage == 'tr' ? 'Seç' : 'OK',
-      cancelText: widget.currentLanguage == 'tr' ? 'Vazgeç' : 'CANCEL',
-      helpText: widget.currentLanguage == 'tr' ? 'Tarih Seçin' : 'SELECT DATE',
+      confirmText: allTranslations[widget.currentLanguage]!['OK']!,
+      cancelText: allTranslations[widget.currentLanguage]!['Cancel']!,
+      helpText: allTranslations[widget.currentLanguage]!['Select Date']!,
     );
 
     if (selectedDate != null) {

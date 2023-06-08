@@ -41,6 +41,15 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
       'You need to work for {years} years, {months} months, and {days} days to buy the desired product.':
       'İstenilen ürünü almak için {years} yıl, {months} ay ve {days} gün çalışmanız gerekiyor.',
     },
+    'fr': {
+      'Salary Calculation': 'Calcul du salaire',
+      'How long do I need to work?': 'Combien de temps dois-je travailler?',
+      'Your Salary': 'Votre salaire',
+      'Product Price': 'Prix du produit',
+      'Calculate': 'Calculer',
+      'You need to work for {years} years, {months} months, and {days} days to buy the desired product.':
+      'Vous devez travailler pendant {years} années, {months} mois et {days} jours pour acheter le produit souhaité.',
+    },
   };
 
   String _getTranslatedString(String key, {Map<String, dynamic>? replacements}) {

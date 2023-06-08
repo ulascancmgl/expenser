@@ -54,6 +54,15 @@ class _ExchangePageState extends State<ExchangePage> {
       'Close': 'Kapat',
       'Search...': 'Ara...',
     },
+    'fr': {
+      'Currency Converter': 'Convertisseur de devises',
+      'Amount': 'Montant',
+      'Select Currency': 'Sélectionner la devise',
+      'Convert': 'Convertir',
+      'Converted Amount': 'Montant converti',
+      'Close': 'Fermer',
+      'Search...': 'Rechercher...',
+    },
   };
 
   String _getTranslatedString(String key) {
@@ -95,7 +104,7 @@ class _ExchangePageState extends State<ExchangePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-        _getTranslatedString('Currency Converter'),
+          _getTranslatedString('Currency Converter'),
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.0,

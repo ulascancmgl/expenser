@@ -59,6 +59,25 @@ class _InflationPageState extends State<InflationPage> {
       'Daily Expense Amount:': 'Günlük Harcama Miktarı:',
       'Inflation': 'Enflasyon',
     },
+    'fr': {
+      'Food': 'Alimentation',
+      'Transportation': 'Transport',
+      'Shopping': 'Shopping',
+      'Entertainment': 'Divertissement',
+      'Bills': 'Factures',
+      'Others': 'Autres',
+      'Product Name': 'Nom du Produit',
+      'Initial Value': 'Valeur Initiale',
+      'Save': 'Enregistrer',
+      'Update': 'Mettre à jour',
+      'New Value': 'Nouvelle Valeur',
+      'Inflation Page': 'Page de l\'Inflation',
+      'Calculate': 'Calculer',
+      'Reset': 'Réinitialiser',
+      'Remaining Days:': 'Jours Restants :',
+      'Daily Expense Amount:': 'Montant des Dépenses Quotidiennes :',
+      'Inflation': 'Inflation',
+    },
   };
 
   String _getTranslatedString(String key) {

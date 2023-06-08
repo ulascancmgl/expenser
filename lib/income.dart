@@ -29,6 +29,9 @@ class _IncomePageState extends State<IncomePage> {
       'Save': 'Save',
       'Edit': 'Edit',
       'Delete': 'Delete',
+      'OK': 'OK',
+      'Cancel': 'Cancel',
+      'Select Date': 'Select Date',
     },
     'tr': {
       'Income Page': 'Gelir Sayfası',
@@ -41,6 +44,24 @@ class _IncomePageState extends State<IncomePage> {
       'Save': 'Kaydet',
       'Edit': 'Düzenle',
       'Delete': 'Sil',
+      'OK': 'Seç',
+      'Cancel': 'Vazgeç',
+      'Select Date': 'Tarih Seçin',
+    },
+    'fr': {
+      'Income Page': 'Page des Revenus',
+      'Amount': 'Montant',
+      'Select Start Date': 'Sélectionner la date de début',
+      'Start Date': 'Date de début',
+      'End Date': 'Date de fin',
+      'Add Income': 'Ajouter un revenu',
+      'Update Income Amount': 'Mettre à jour le montant des revenus',
+      'Save': 'Enregistrer',
+      'Edit': 'Modifier',
+      'Delete': 'Supprimer',
+      'OK': 'OK',
+      'Cancel': 'Annuler',
+      'Select Date': 'Sélectionner la date',
     },
   };
 
@@ -156,9 +177,9 @@ class _IncomePageState extends State<IncomePage> {
           ),
         );
       },
-      confirmText: widget.currentLanguage == 'tr' ? 'Seç' : 'OK',
-      cancelText: widget.currentLanguage == 'tr' ? 'Vazgeç' : 'CANCEL',
-      helpText: widget.currentLanguage == 'tr' ? 'Tarih Seçin' : 'SELECT DATE',
+      confirmText: allTranslations[widget.currentLanguage]!['OK']!,
+      cancelText: allTranslations[widget.currentLanguage]!['Cancel']!,
+      helpText: allTranslations[widget.currentLanguage]!['Select Date']!,
     );
 
     if (pickedDate != null) {

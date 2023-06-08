@@ -70,8 +70,26 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
       'November': 'Kasım',
       'December': 'Aralık',
     },
+    'fr': {
+      'Total Expenses': 'Total des Dépenses',
+      'Total Expense': 'Dépense Totale',
+      'Total Income': 'Revenu Total',
+      'Amount: ': 'Montant : ',
+      'Date: ': 'Date : ',
+      'January': 'Janvier',
+      'February': 'Février',
+      'March': 'Mars',
+      'April': 'Avril',
+      'May': 'Mai',
+      'June': 'Juin',
+      'July': 'Juillet',
+      'August': 'Août',
+      'September': 'Septembre',
+      'October': 'Octobre',
+      'November': 'Novembre',
+      'December': 'Décembre',
+    },
   };
-
 
   @override
   void initState() {
@@ -167,7 +185,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                   return ListTile(
                     title: Center(
                       child: Text(
-                      _getTranslatedString('Total Income'),
+                        _getTranslatedString('Total Income'),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

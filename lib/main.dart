@@ -36,17 +36,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String currentLanguage = 'en';
 
-  Map<String, String> translations = {
-    'Income': 'Gelir',
-    'Expense': 'Gider',
-    'Total Expense': 'Toplam Gider',
-    'Inflation': 'Enflasyon',
-    'How much to spend daily': 'Günlük harcamanız ne kadar olmalı',
-    'Calculate To Buy': 'Almak ne kadar sürer',
-    'Calculate Loan': 'Kredi Hesapla',
-    'Exchange': 'Döviz Hesaplama',
+  Map<String, Map<String, String>> translations = {
+    'en': {
+      'Income': 'Income',
+      'Expense': 'Expense',
+      'Total Expense': 'Total Expense',
+      'Inflation': 'Inflation',
+      'How much to spend daily': 'How much to spend daily',
+      'Calculate To Buy': 'Calculate To Buy',
+      'Calculate Loan': 'Calculate Loan',
+      'Exchange': 'Exchange',
+    },
+    'tr': {
+      'Income': 'Gelir',
+      'Expense': 'Gider',
+      'Total Expense': 'Toplam Gider',
+      'Inflation': 'Enflasyon',
+      'How much to spend daily': 'Günlük harcamanız ne kadar olmalı',
+      'Calculate To Buy': 'Almak ne kadar sürer',
+      'Calculate Loan': 'Kredi Hesapla',
+      'Exchange': 'Döviz Hesaplama',
+    },
+    'fr': {
+      'Income': 'Revenu',
+      'Expense': 'Dépense',
+      'Total Expense': 'Total des dépenses',
+      'Inflation': 'Inflation',
+      'How much to spend daily': 'Combien dépenser par jour',
+      'Calculate To Buy': 'Calculer l\'achat',
+      'Calculate Loan': 'Calculer le prêt',
+      'Exchange': 'Calcul de change',
+    },
   };
-
 
   @override
   void initState() {
@@ -70,9 +91,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _getTranslatedString(String originalString) {
-    return currentLanguage == 'en'
-        ? originalString
-        : translations[originalString] ?? originalString;
+    return translations[currentLanguage]?[originalString] ?? originalString;
   }
 
   final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
@@ -108,6 +127,10 @@ class _HomePageState extends State<HomePage> {
                 value: 'tr',
                 child: Text('Türkçe'),
               ),
+              PopupMenuItem(
+                value: 'fr',
+                child: Text('Français'),
+              ),
             ],
           ),
         ],
@@ -122,7 +145,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => IncomePage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        IncomePage(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -135,7 +159,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ExpensePage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        ExpensePage(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -148,7 +173,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TotalExpensePage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        TotalExpensePage(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -161,7 +187,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => InflationPage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        InflationPage(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -174,7 +201,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HowMuchToSpend(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        HowMuchToSpend(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -187,7 +215,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CalcToBuyPage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        CalcToBuyPage(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -200,7 +229,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CalculateBuyPage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        CalculateBuyPage(currentLanguage: currentLanguage),
                   ),
                 );
               },
@@ -213,7 +243,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ExchangePage(currentLanguage: currentLanguage),
+                    builder: (context) =>
+                        ExchangePage(currentLanguage: currentLanguage),
                   ),
                 );
               },

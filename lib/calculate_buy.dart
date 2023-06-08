@@ -53,6 +53,21 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
       'You cannot get this loan because the monthly payment exceeds 35% of your salary.':
           'Aylık ödeme, maaşınızın %35\'ini aştığı için bu krediyi alamazsınız.',
     },
+    'fr': {
+      'Calculate Loan Page': 'Calculer le prêt',
+      'Salary': 'Salaire',
+      'Loan Amount': 'Montant du prêt',
+      'Down Payment': 'Paiement initial',
+      'Interest Rate (%)': 'Taux d\'intérêt (%)',
+      'Loan Period (years)': 'Durée du prêt (années)',
+      'Calculate': 'Calculer',
+      'Loan Amount: ': 'Montant du prêt : ',
+      'Monthly Payment: ': 'Paiement mensuel : ',
+      'Total Payment: ': 'Paiement total : ',
+      'You can get this loan.': 'Vous pouvez obtenir ce prêt.',
+      'You cannot get this loan because the monthly payment exceeds 35% of your salary.':
+      'Vous ne pouvez pas obtenir ce prêt car le paiement mensuel dépasse 35% de votre salaire.',
+    },
   };
 
   String _getTranslatedString(String key) {
