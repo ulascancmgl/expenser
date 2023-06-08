@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'expense.dart';
 import 'income.dart';
-import 'langs/total_expense_lang.dart';
+import 'langs/lang.dart';
 
 class TotalExpensePage extends StatefulWidget {
   final String currentLanguage;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'langs/calc_to_buy_lang.dart';
+import 'langs/lang.dart';
 
 class CalcToBuyPage extends StatefulWidget {
   final String currentLanguage;
@@ -24,8 +24,8 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
     super.dispose();
   }
 
-
-  String _getTranslatedString(String key, {Map<String, dynamic>? replacements}) {
+  String _getTranslatedString(String key,
+      {Map<String, dynamic>? replacements}) {
     Map<String, String> translations =
         allTranslations[widget.currentLanguage] ?? {};
     String translation = translations[key] ?? key;
@@ -38,7 +38,6 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
 
     return translation;
   }
-
 
   @override
   Widget build(BuildContext context) {

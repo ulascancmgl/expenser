@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-import 'langs/calculate_buy_lang.dart';
+import 'langs/lang.dart';
 
 class CalculateBuyPage extends StatefulWidget {
   final String currentLanguage;
@@ -23,7 +23,6 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
   double totalPayment = 0.0;
   bool isCalculated = false;
   bool isLoanAvailable = false;
-
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =

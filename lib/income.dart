@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'langs/income_lang.dart';
+import 'langs/lang.dart';
 
 class IncomePage extends StatefulWidget {
   final String currentLanguage;

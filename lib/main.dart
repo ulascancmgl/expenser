@@ -9,7 +9,7 @@ import 'exchange.dart';
 import 'income.dart';
 import 'expense.dart';
 import 'inflation.dart';
-import 'langs/main_lang.dart';
+import 'langs/lang.dart';
 
 void main() {
   runApp(ExpenseCalculatorApp());
@@ -37,8 +37,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String currentLanguage = 'en';
 
-
-
   @override
   void initState() {
     super.initState();
@@ -61,7 +59,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _getTranslatedString(String originalString) {
-    return translations[currentLanguage]?[originalString] ?? originalString;
+    return allTranslations[currentLanguage]?[originalString] ?? originalString;
   }
 
   final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'currency_utils.dart';
-import 'langs/exchange_lang.dart';
+import 'langs/lang.dart';
 
 class Currency {
   String symbol;
@@ -35,7 +35,6 @@ class _ExchangePageState extends State<ExchangePage> {
     super.initState();
     _fetchExchangeRates();
   }
-
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =

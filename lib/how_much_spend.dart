@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'langs/how_much_spend_lang.dart';
+import 'langs/lang.dart';
 
 class HowMuchToSpend extends StatefulWidget {
   final String currentLanguage;

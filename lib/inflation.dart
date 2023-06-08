@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model.dart';
-import 'langs/inflation_lang.dart';
+import 'langs/lang.dart';
 
 class InflationPage extends StatefulWidget {
   final String currentLanguage;

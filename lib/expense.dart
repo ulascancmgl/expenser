@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'langs/expense_lang.dart';
+import 'langs/lang.dart';
 
 class ExpensePage extends StatefulWidget {
   final String currentLanguage;
