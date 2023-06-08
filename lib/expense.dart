@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'langs/expense_lang.dart';
 
 class ExpensePage extends StatefulWidget {
   final String currentLanguage;
@@ -43,90 +44,6 @@ class _ExpensePageState extends State<ExpensePage> {
     _amountController.dispose();
     super.dispose();
   }
-
-  Map<String, Map<String, String>> allTranslations = {
-    'en': {
-      'Expense Tracker': 'Expense Tracker',
-      'Total Expenses': 'Total Expenses',
-      'Amount': 'Amount',
-      'Expense Type': 'Expense Type',
-      'Add Expense': 'Add Expense',
-      'No expenses recorded': 'No expenses recorded',
-      'Total Expense': 'Total Expense',
-      'January': 'January',
-      'February': 'February',
-      'March': 'March',
-      'April': 'April',
-      'May': 'May',
-      'June': 'June',
-      'July': 'July',
-      'August': 'August',
-      'September': 'September',
-      'October': 'October',
-      'November': 'November',
-      'December': 'December',
-      'Food': 'Food',
-      'Transportation': 'Transportation',
-      'Shopping': 'Shopping',
-      'Entertainment': 'Entertainment',
-      'Bills': 'Bills',
-      'Others': 'Others',
-    },
-    'tr': {
-      'Expense Tracker': 'Harcama Takipçisi',
-      'Total Expenses': 'Toplam Harcamalar',
-      'Amount': 'Miktar',
-      'Expense Type': 'Harcama Türü',
-      'Add Expense': 'Harcama Ekle',
-      'No expenses recorded': 'Kaydedilen harcama yok',
-      'Total Expense': 'Toplam Harcama',
-      'January': 'Ocak',
-      'February': 'Şubat',
-      'March': 'Mart',
-      'April': 'Nisan',
-      'May': 'Mayıs',
-      'June': 'Haziran',
-      'July': 'Temmuz',
-      'August': 'Ağustos',
-      'September': 'Eylül',
-      'October': 'Ekim',
-      'November': 'Kasım',
-      'December': 'Aralık',
-      'Food': 'Yemek',
-      'Transportation': 'Ulaşım',
-      'Shopping': 'Alışveriş',
-      'Entertainment': 'Eğlence',
-      'Bills': 'Faturalar',
-      'Others': 'Diğer',
-    },
-    'fr': {
-      'Expense Tracker': 'Suivi des dépenses',
-      'Total Expenses': 'Total des dépenses',
-      'Amount': 'Montant',
-      'Expense Type': 'Type de dépense',
-      'Add Expense': 'Ajouter une dépense',
-      'No expenses recorded': 'Aucune dépense enregistrée',
-      'Total Expense': 'Total des dépenses',
-      'January': 'Janvier',
-      'February': 'Février',
-      'March': 'Mars',
-      'April': 'Avril',
-      'May': 'Mai',
-      'June': 'Juin',
-      'July': 'Juillet',
-      'August': 'Août',
-      'September': 'Septembre',
-      'October': 'Octobre',
-      'November': 'Novembre',
-      'December': 'Décembre',
-      'Food': 'Nourriture',
-      'Transportation': 'Transport',
-      'Shopping': 'Shopping',
-      'Entertainment': 'Divertissement',
-      'Bills': 'Factures',
-      'Others': 'Autres',
-    },
-  };
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =
@@ -254,7 +171,8 @@ class _ExpensePageState extends State<ExpensePage> {
                 itemCount: filteredExpenses.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(_getTranslatedString(filteredExpenses[index].expenseType)),
+                    title: Text(_getTranslatedString(
+                        filteredExpenses[index].expenseType)),
                     subtitle: Text(
                       '${_getTranslatedString('Amount')}: ${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date')}: ${filteredExpenses[index].date}',
                     ),

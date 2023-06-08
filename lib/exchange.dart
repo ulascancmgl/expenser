@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'currency_utils.dart';
+import 'langs/exchange_lang.dart';
 
 class Currency {
   String symbol;
@@ -35,35 +36,6 @@ class _ExchangePageState extends State<ExchangePage> {
     _fetchExchangeRates();
   }
 
-  Map<String, Map<String, String>> allTranslations = {
-    'en': {
-      'Currency Converter': 'Currency Converter',
-      'Amount': 'Amount',
-      'Select Currency': 'Select Currency',
-      'Convert': 'Convert',
-      'Converted Amount': 'Converted Amount',
-      'Close': 'Close',
-      'Search...': 'Search...',
-    },
-    'tr': {
-      'Currency Converter': 'Para Dönüştürücüsü',
-      'Amount': 'Miktar',
-      'Select Currency': 'Para Birimi Seç',
-      'Convert': 'Dönüştür',
-      'Converted Amount': 'Dönüştürülen Miktar',
-      'Close': 'Kapat',
-      'Search...': 'Ara...',
-    },
-    'fr': {
-      'Currency Converter': 'Convertisseur de devises',
-      'Amount': 'Montant',
-      'Select Currency': 'Sélectionner la devise',
-      'Convert': 'Convertir',
-      'Converted Amount': 'Montant converti',
-      'Close': 'Fermer',
-      'Search...': 'Rechercher...',
-    },
-  };
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =

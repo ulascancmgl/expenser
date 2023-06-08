@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'expense.dart';
 import 'income.dart';
+import 'langs/total_expense_lang.dart';
 
 class TotalExpensePage extends StatefulWidget {
   final String currentLanguage;
@@ -30,66 +31,6 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
         allTranslations[widget.currentLanguage] ?? {};
     return translations[key] ?? key;
   }
-
-  Map<String, Map<String, String>> allTranslations = {
-    'en': {
-      'Total Expenses': 'Total Expenses',
-      'Total Expense': 'Total Expense',
-      'Total Income': 'Total Income',
-      'Amount: ': 'Amount: ',
-      'Date: ': 'Date: ',
-      'January': 'January',
-      'February': 'February',
-      'March': 'March',
-      'April': 'April',
-      'May': 'May',
-      'June': 'June',
-      'July': 'July',
-      'August': 'August',
-      'September': 'September',
-      'October': 'October',
-      'November': 'November',
-      'December': 'December',
-    },
-    'tr': {
-      'Total Expenses': 'Toplam Harcamalar',
-      'Total Expense': 'Toplam Harcama',
-      'Total Income': 'Toplam Gelir',
-      'Amount: ': 'Miktar: ',
-      'Date: ': 'Tarih: ',
-      'January': 'Ocak',
-      'February': 'Şubat',
-      'March': 'Mart',
-      'April': 'Nisan',
-      'May': 'Mayıs',
-      'June': 'Haziran',
-      'July': 'Temmuz',
-      'August': 'Ağustos',
-      'September': 'Eylül',
-      'October': 'Ekim',
-      'November': 'Kasım',
-      'December': 'Aralık',
-    },
-    'fr': {
-      'Total Expenses': 'Total des Dépenses',
-      'Total Expense': 'Dépense Totale',
-      'Total Income': 'Revenu Total',
-      'Amount: ': 'Montant : ',
-      'Date: ': 'Date : ',
-      'January': 'Janvier',
-      'February': 'Février',
-      'March': 'Mars',
-      'April': 'Avril',
-      'May': 'Mai',
-      'June': 'Juin',
-      'July': 'Juillet',
-      'August': 'Août',
-      'September': 'Septembre',
-      'October': 'Octobre',
-      'November': 'Novembre',
-      'December': 'Décembre',
-    },
-  };
 
   @override
   void initState() {
@@ -155,7 +96,8 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
               itemBuilder: (context, index) {
                 if (index < filteredExpenses.length) {
                   return ListTile(
-                    title: Text(filteredExpenses[index].expenseType),
+                    title: Text(_getTranslatedString(
+                        filteredExpenses[index].expenseType)),
                     subtitle: Text(
                       '${_getTranslatedString('Amount: ')}${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date: ')}${filteredExpenses[index].date}',
                     ),

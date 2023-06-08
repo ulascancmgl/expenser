@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'langs/how_much_spend_lang.dart';
 
 class HowMuchToSpend extends StatefulWidget {
   final String currentLanguage;
@@ -23,51 +24,6 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
         allTranslations[widget.currentLanguage] ?? {};
     return translations[key] ?? key;
   }
-
-  Map<String, Map<String, String>> allTranslations = {
-    'en': {
-      'How Much Can I Spend?': 'How Much Can I Spend?',
-      'Income Amount': 'Income Amount',
-      'Future Date (yyyy-MM-dd)': 'Future Date (yyyy-MM-dd)',
-      'Calculate': 'Calculate',
-      'Subtraction Value': 'Subtraction Value',
-      'Subtract from Value': 'Subtract from Value',
-      'Remaining Days:': 'Remaining Days:',
-      'Daily Expense Amount:': 'Daily Expense Amount:',
-      'Reset': 'Reset',
-      'OK': 'OK',
-      'Cancel': 'Cancel',
-      'Select Date': 'Select Date',
-    },
-    'tr': {
-      'How Much Can I Spend?': 'Ne Kadar Harcayabilirim?',
-      'Income Amount': 'Gelir Miktarı',
-      'Future Date (yyyy-MM-dd)': 'Gelecek Tarih (yyyy-AA-gg)',
-      'Calculate': 'Hesapla',
-      'Subtraction Value': 'Çıkarma Değeri',
-      'Subtract from Value': 'Değerden Çıkar',
-      'Remaining Days:': 'Kalan Günler:',
-      'Daily Expense Amount:': 'Günlük Harcama Miktarı:',
-      'Reset': 'Sıfırla',
-      'OK': 'Seç',
-      'Cancel': 'Vazgeç',
-      'Select Date': 'Tarih Seçin',
-    },
-    'fr': {
-      'How Much Can I Spend?': 'Combien puis-je dépenser ?',
-      'Income Amount': 'Montant des revenus',
-      'Future Date (yyyy-MM-dd)': 'Date future (aaaa-MM-jj)',
-      'Calculate': 'Calculer',
-      'Subtraction Value': 'Valeur à soustraire',
-      'Subtract from Value': 'Soustraire de la valeur',
-      'Remaining Days:': 'Jours restants :',
-      'Daily Expense Amount:': 'Montant des dépenses quotidiennes :',
-      'Reset': 'Réinitialiser',
-      'OK': 'OK',
-      'Cancel': 'Annuler',
-      'Select Date': 'Sélectionner la date',
-    },
-  };
 
   @override
   void initState() {

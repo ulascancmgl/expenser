@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'langs/income_lang.dart';
 
 class IncomePage extends StatefulWidget {
   final String currentLanguage;
@@ -16,54 +17,6 @@ class _IncomePageState extends State<IncomePage> {
   late TextEditingController _amountController;
   late DateTime _startDate;
   List<Income> _incomes = [];
-
-  Map<String, Map<String, String>> allTranslations = {
-    'en': {
-      'Income Page': 'Income Page',
-      'Amount': 'Amount',
-      'Select Start Date': 'Select Start Date',
-      'Start Date': 'Start Date',
-      'End Date': 'End Date',
-      'Add Income': 'Add Income',
-      'Update Income Amount': 'Update Income Amount',
-      'Save': 'Save',
-      'Edit': 'Edit',
-      'Delete': 'Delete',
-      'OK': 'OK',
-      'Cancel': 'Cancel',
-      'Select Date': 'Select Date',
-    },
-    'tr': {
-      'Income Page': 'Gelir Sayfası',
-      'Amount': 'Miktar',
-      'Select Start Date': 'Başlangıç Tarihini Seç',
-      'Start Date': 'Başlangıç Tarihi',
-      'End Date': 'Bitiş Tarihi',
-      'Add Income': 'Gelir Ekle',
-      'Update Income Amount': 'Gelir Miktarını Güncelle',
-      'Save': 'Kaydet',
-      'Edit': 'Düzenle',
-      'Delete': 'Sil',
-      'OK': 'Seç',
-      'Cancel': 'Vazgeç',
-      'Select Date': 'Tarih Seçin',
-    },
-    'fr': {
-      'Income Page': 'Page des Revenus',
-      'Amount': 'Montant',
-      'Select Start Date': 'Sélectionner la date de début',
-      'Start Date': 'Date de début',
-      'End Date': 'Date de fin',
-      'Add Income': 'Ajouter un revenu',
-      'Update Income Amount': 'Mettre à jour le montant des revenus',
-      'Save': 'Enregistrer',
-      'Edit': 'Modifier',
-      'Delete': 'Supprimer',
-      'OK': 'OK',
-      'Cancel': 'Annuler',
-      'Select Date': 'Sélectionner la date',
-    },
-  };
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =
