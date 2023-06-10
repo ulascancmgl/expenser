@@ -102,72 +102,131 @@ class _ExpensePageState extends State<ExpensePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                DropdownButton<int>(
-                  value: selectedMonth,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedMonth = newValue!;
-                    });
-                  },
-                  items: [
-                    for (int month = 1; month <= 12; month++)
-                      DropdownMenuItem<int>(
-                        value: month,
-                        child: Text(_getTranslatedString(getMonthName(month))),
-                      ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButton<int>(
+                      value: selectedMonth,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedMonth = newValue!;
+                        });
+                      },
+                      items: [
+                        for (int month = 1; month <= 12; month++)
+                          DropdownMenuItem<int>(
+                            value: month,
+                            child: Text(
+                              _getTranslatedString(getMonthName(month)),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(width: 16),
+                    DropdownButton<int>(
+                      value: selectedYear,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedYear = newValue!;
+                        });
+                      },
+                      items: [
+                        for (int year = DateTime.now().year;
+                            year >= 2020;
+                            year--)
+                          DropdownMenuItem<int>(
+                            value: year,
+                            child: Text(
+                              '$year',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ],
                 ),
-                SizedBox(width: 16),
-                DropdownButton<int>(
-                  value: selectedYear,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedYear = newValue!;
-                    });
-                  },
-                  items: [
-                    for (int year = DateTime.now().year; year >= 2020; year--)
-                      DropdownMenuItem<int>(
-                        value: year,
-                        child: Text('$year'),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _amountController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
-                labelText: _getTranslatedString('Amount'),
               ),
             ),
             SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: _selectedExpenseType,
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedExpenseType = newValue;
-                });
-              },
-              items: expenseTypes.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(_getTranslatedString(value)),
-                );
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: _getTranslatedString('Expense Type'),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: TextFormField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Amount'),
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _registerExpense,
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Add Expense')),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedExpenseType,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedExpenseType = newValue;
+                    });
+                  },
+                  items: expenseTypes
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(_getTranslatedString(value)),
+                      ),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Expense Type'),
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  isDense: true,
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Center(
+              child: ElevatedButton(
+                onPressed: _registerExpense,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Add Expense')),
+              ),
             ),
             SizedBox(height: 16),
             Expanded(
@@ -178,8 +237,15 @@ class _ExpensePageState extends State<ExpensePage> {
                       tooltipBehavior: TooltipBehavior(enable: true),
                     )
                   : Center(
-                      child:
-                          Text(_getTranslatedString('No expenses recorded'))),
+                      child: Text(
+                        _getTranslatedString('No expenses recorded'),
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
             ),
             SizedBox(height: 16),
             Expanded(
@@ -188,10 +254,21 @@ class _ExpensePageState extends State<ExpensePage> {
                 itemCount: filteredExpenses.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(_getTranslatedString(
-                        filteredExpenses[index].expenseType)),
+                    title: Text(
+                      _getTranslatedString(filteredExpenses[index].expenseType),
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     subtitle: Text(
                       '${_getTranslatedString('Amount')}: ${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date')}: ${filteredExpenses[index].date}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
@@ -204,7 +281,11 @@ class _ExpensePageState extends State<ExpensePage> {
             SizedBox(height: 16),
             Text(
               '${_getTranslatedString('Total Expense')}: ${totalExpense.toStringAsFixed(2)}',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Colors.black87,
+              ),
             ),
           ],
         ),

@@ -179,20 +179,38 @@ class _IncomePageState extends State<IncomePage> {
               padding: EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  TextField(
-                    controller: _amountController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: _getTranslatedString('Amount'),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: TextField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: _getTranslatedString('Amount'),
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () => _showDatePicker(context),
-                    style: elevatedButtonStyle,
-                    child: Text(_startDate == true
-                        ? _getTranslatedString('Select Start Date')
-                        : '${_getTranslatedString('Start Date')}: ${_startDate.toString().substring(0, 10)}'),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: ElevatedButton(
+                      onPressed: () => _showDatePicker(context),
+                      style: elevatedButtonStyle,
+                      child: Text(_startDate == true
+                          ? _getTranslatedString('Select Start Date')
+                          : '${_getTranslatedString('Start Date')}: ${_startDate.toString().substring(0, 10)}'),
+                    ),
                   ),
                   SizedBox(height: 16.0),
                   ElevatedButton(
@@ -209,29 +227,70 @@ class _IncomePageState extends State<IncomePage> {
                 itemBuilder: (context, index) {
                   Income income = _incomes[index];
                   return ListTile(
-                    title: Text(
-                        '${_getTranslatedString('Amount')}: ${income.amount.toStringAsFixed(2)}'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            '${_getTranslatedString('Start Date')}: ${income.startDate.substring(0, 10)}'),
-                        Text(
-                            '${_getTranslatedString('End Date')}: ${income.endDate.substring(0, 10)}'),
-                      ],
+                    title: Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${_getTranslatedString('Amount')}: ${income.amount.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${_getTranslatedString('Start Date')}: ${income.startDate.substring(0, 10)}',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${_getTranslatedString('End Date')}: ${income.endDate.substring(0, 10)}',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () => _showUpdateDialog(index),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () => _deleteIncome(index),
-                        ),
-                      ],
+                    trailing: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.green,
+                            ),
+                            onPressed: () => _showUpdateDialog(index),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                            onPressed: () => _deleteIncome(index),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
