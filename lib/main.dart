@@ -36,7 +36,6 @@ class ExpenseCalculatorApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      locale: Locale('en'),
     );
   }
 }
@@ -47,12 +46,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String currentLanguage = 'en';
+  String? currentLanguage;
 
   @override
   void initState() {
     super.initState();
     _loadSelectedLanguage();
+  }
+
+  Iterable<Locale> get supportedLocales {
+    return [
+      const Locale('en', ''),
+      const Locale('tr', ''),
+      const Locale('fr', ''),
+    ];
   }
 
   Future<void> _loadSelectedLanguage() async {
@@ -62,6 +69,18 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         currentLanguage = selectedLanguage;
       });
+    } else {
+      String preferredLanguage = Localizations.localeOf(context).languageCode;
+
+      if (supportedLocales.contains(Locale(preferredLanguage, ''))) {
+        setState(() {
+          currentLanguage = preferredLanguage;
+        });
+      } else {
+        setState(() {
+          currentLanguage = 'en';
+        });
+      }
     }
   }
 
@@ -92,6 +111,11 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.indigo,
         actions: [
           PopupMenuButton<String>(
+            icon: Icon(
+              Icons.language_sharp,
+              color: Colors.white,
+              size: 24.0,
+            ),
             onSelected: (selectedLanguage) {
               setState(() {
                 currentLanguage = selectedLanguage;
@@ -115,123 +139,147 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        IncomePage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Income')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ExpensePage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Expense')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        TotalExpensePage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Total Expense')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        InflationPage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Inflation')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        HowMuchToSpend(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('How much to spend daily')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CalcToBuyPage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Calculate To Buy')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CalculateBuyPage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Calculate Loan')),
-            ),
-            SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ExchangePage(currentLanguage: currentLanguage),
-                  ),
-                );
-              },
-              style: elevatedButtonStyle,
-              child: Text(_getTranslatedString('Exchange')),
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                IncomePage(currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Income')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ExpensePage(currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Expense')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TotalExpensePage(
+                                currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Total Expense')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InflationPage(
+                                currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Inflation')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HowMuchToSpend(
+                                currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('How much to spend daily')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CalcToBuyPage(
+                                currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Calculate To Buy')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CalculateBuyPage(
+                                currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Calculate Loan')),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: currentLanguage != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ExchangePage(currentLanguage: currentLanguage!),
+                          ),
+                        );
+                      }
+                    : null,
+                style: elevatedButtonStyle,
+                child: Text(_getTranslatedString('Exchange')),
+              ),
+            ],
+          ),
         ),
       ),
     );

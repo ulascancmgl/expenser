@@ -64,7 +64,15 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
         title: Text(_getTranslatedString('Calculate Loan Page')),
         backgroundColor: Colors.indigo,
       ),
-      body: Padding(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
@@ -127,25 +135,60 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
                 onPressed: calculateLoan,
               ),
               SizedBox(height: 20.0),
-              if (isCalculated && loanAmount != 0.0)
-                Text(_getTranslatedString('Loan Amount: ') +
-                    loanAmount.toStringAsFixed(2)),
-              if (isCalculated && monthlyPayment != 0.0)
-                Text(_getTranslatedString('Monthly Payment: ') +
-                    monthlyPayment.toStringAsFixed(2)),
-              if (isCalculated && totalPayment != 0.0)
-                Text(_getTranslatedString('Total Payment: ') +
-                    totalPayment.toStringAsFixed(2)),
-              SizedBox(height: 20.0),
               if (isCalculated)
-                Text(
-                  isLoanAvailable
-                      ? _getTranslatedString('You can get this loan.')
-                      : _getTranslatedString(
-                          'You cannot get this loan because the monthly payment exceeds 35% of your salary.'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: isLoanAvailable ? Colors.green : Colors.red,
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    children: [
+                      if (isCalculated && loanAmount != 0.0)
+                        Text(
+                          _getTranslatedString('Loan Amount: ') +
+                              loanAmount.toStringAsFixed(2),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      if (isCalculated && monthlyPayment != 0.0)
+                        Text(
+                          _getTranslatedString('Monthly Payment: ') +
+                              monthlyPayment.toStringAsFixed(2),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      if (isCalculated && totalPayment != 0.0)
+                        Text(
+                          _getTranslatedString('Total Payment: ') +
+                              totalPayment.toStringAsFixed(2),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      SizedBox(height: 20.0),
+                      if (isCalculated)
+                        Text(
+                          isLoanAvailable
+                              ? _getTranslatedString('You can get this loan.')
+                              : _getTranslatedString(
+                                  'You cannot get this loan because the monthly payment exceeds 35% of your salary.'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: isLoanAvailable ? Colors.green : Colors.red,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
             ],

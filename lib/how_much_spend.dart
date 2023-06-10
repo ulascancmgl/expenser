@@ -79,8 +79,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.indigo,
-              backgroundColor:
-                  Colors.transparent,
+              backgroundColor: Colors.transparent,
               cardColor: Colors.indigo,
             ),
             dialogBackgroundColor: Colors.white,
@@ -157,9 +156,17 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        padding: EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

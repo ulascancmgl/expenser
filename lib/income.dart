@@ -155,70 +155,81 @@ class _IncomePageState extends State<IncomePage> {
         title: Text(_getTranslatedString('Income Page')),
         backgroundColor: Colors.indigo,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: _getTranslatedString('Amount')),
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () => _showDatePicker(context),
-                  style: elevatedButtonStyle,
-                  child: Text(_startDate == true
-                      ? _getTranslatedString('Select Start Date')
-                      : '${_getTranslatedString('Start Date')}: ${_startDate.toString().substring(0, 10)}'),
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _addIncome,
-                  style: elevatedButtonStyle,
-                  child: Text(_getTranslatedString('Add Income')),
-                ),
-              ],
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _incomes.length,
-              itemBuilder: (context, index) {
-                Income income = _incomes[index];
-                return ListTile(
-                  title: Text(
-                      '${_getTranslatedString('Amount')}: ${income.amount.toStringAsFixed(2)}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          '${_getTranslatedString('Start Date')}: ${income.startDate.substring(0, 10)}'),
-                      Text(
-                          '${_getTranslatedString('End Date')}: ${income.endDate.substring(0, 10)}'),
-                    ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: _getTranslatedString('Amount'),
+                    ),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () => _showUpdateDialog(index),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () => _deleteIncome(index),
-                      ),
-                    ],
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () => _showDatePicker(context),
+                    style: elevatedButtonStyle,
+                    child: Text(_startDate == true
+                        ? _getTranslatedString('Select Start Date')
+                        : '${_getTranslatedString('Start Date')}: ${_startDate.toString().substring(0, 10)}'),
                   ),
-                );
-              },
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _addIncome,
+                    style: elevatedButtonStyle,
+                    child: Text(_getTranslatedString('Add Income')),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: _incomes.length,
+                itemBuilder: (context, index) {
+                  Income income = _incomes[index];
+                  return ListTile(
+                    title: Text(
+                        '${_getTranslatedString('Amount')}: ${income.amount.toStringAsFixed(2)}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            '${_getTranslatedString('Start Date')}: ${income.startDate.substring(0, 10)}'),
+                        Text(
+                            '${_getTranslatedString('End Date')}: ${income.endDate.substring(0, 10)}'),
+                      ],
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () => _showUpdateDialog(index),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () => _deleteIncome(index),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

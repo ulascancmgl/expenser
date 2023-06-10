@@ -80,7 +80,15 @@ class _ExpensePageState extends State<ExpensePage> {
         title: Text(_getTranslatedString('Expense Tracker')),
         backgroundColor: Colors.indigo,
       ),
-      body: Padding(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

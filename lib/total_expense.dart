@@ -46,111 +46,121 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
         title: Text(_getTranslatedString('Total Expenses')),
         backgroundColor: Colors.indigo,
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              DropdownButton<int>(
-                value: selectedMonth,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedMonth = newValue!;
-                    filterExpensesByMonth();
-                    filterIncomesByMonth();
-                  });
-                },
-                items: [
-                  for (int month = 1; month <= 12; month++)
-                    DropdownMenuItem<int>(
-                      value: month,
-                      child: Text(
-                        _getTranslatedString('${getMonthName(month)}'),
-                      ),
-                    ),
-                ],
-              ),
-              DropdownButton<int>(
-                value: selectedYear,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedYear = newValue!;
-                    filterExpensesByMonth();
-                    filterIncomesByMonth();
-                  });
-                },
-                items: [
-                  for (int year = DateTime.now().year; year >= 2020; year--)
-                    DropdownMenuItem<int>(
-                      value: year,
-                      child: Text(
-                        '$year',
-                      ),
-                    ),
-                ],
-              ),
-            ],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredExpenses.length + 2,
-              itemBuilder: (context, index) {
-                if (index < filteredExpenses.length) {
-                  return ListTile(
-                    title: Text(_getTranslatedString(
-                        filteredExpenses[index].expenseType)),
-                    subtitle: Text(
-                      '${_getTranslatedString('Amount: ')}${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date: ')}${filteredExpenses[index].date}',
-                    ),
-                  );
-                } else if (index == filteredExpenses.length) {
-                  return ListTile(
-                    title: Center(
-                      child: Text(
-                        _getTranslatedString('Total Expense'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                DropdownButton<int>(
+                  value: selectedMonth,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedMonth = newValue!;
+                      filterExpensesByMonth();
+                      filterIncomesByMonth();
+                    });
+                  },
+                  items: [
+                    for (int month = 1; month <= 12; month++)
+                      DropdownMenuItem<int>(
+                        value: month,
+                        child: Text(
+                          _getTranslatedString('${getMonthName(month)}'),
                         ),
                       ),
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        '${totalExpense.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  ],
+                ),
+                DropdownButton<int>(
+                  value: selectedYear,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedYear = newValue!;
+                      filterExpensesByMonth();
+                      filterIncomesByMonth();
+                    });
+                  },
+                  items: [
+                    for (int year = DateTime.now().year; year >= 2020; year--)
+                      DropdownMenuItem<int>(
+                        value: year,
+                        child: Text(
+                          '$year',
                         ),
                       ),
-                    ),
-                  );
-                } else if (index == filteredExpenses.length + 1) {
-                  return ListTile(
-                    title: Center(
-                      child: Text(
-                        _getTranslatedString('Total Income'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        '${totalIncome.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return SizedBox.shrink();
-                }
-              },
+                  ],
+                ),
+              ],
             ),
-          ),
-        ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredExpenses.length + 2,
+                itemBuilder: (context, index) {
+                  if (index < filteredExpenses.length) {
+                    return ListTile(
+                      title: Text(_getTranslatedString(
+                          filteredExpenses[index].expenseType)),
+                      subtitle: Text(
+                        '${_getTranslatedString('Amount: ')}${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date: ')}${filteredExpenses[index].date}',
+                      ),
+                    );
+                  } else if (index == filteredExpenses.length) {
+                    return ListTile(
+                      title: Center(
+                        child: Text(
+                          _getTranslatedString('Total Expense'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '${totalExpense.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (index == filteredExpenses.length + 1) {
+                    return ListTile(
+                      title: Center(
+                        child: Text(
+                          _getTranslatedString('Total Income'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          '${totalIncome.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

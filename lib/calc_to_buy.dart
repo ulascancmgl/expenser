@@ -54,10 +54,18 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
         backgroundColor: Colors.indigo,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Center(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        padding: EdgeInsets.all(16.0),
+        child: Center(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -65,6 +73,7 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
                 Text(
                   _getTranslatedString('How long do I need to work?'),
                   style: TextStyle(
+                    color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
