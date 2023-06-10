@@ -85,6 +85,11 @@ Map<String, Map<String, String>> allTranslations = {
     'Total Income': 'Total Income',
     'Amount: ': 'Amount: ',
     'Date: ': 'Date: ',
+    'Settings': 'Settings',
+    'Languages': 'Languages',
+    'Clear Application Data': 'Clear Application Data',
+    'Clear Data': 'Clear Data',
+    'Are you sure you want to clear all user data ?': 'Are you sure you want to clear all user data ?',
   },
   'tr': {
     'Salary Calculation': 'Maaş Hesaplama',
@@ -172,6 +177,12 @@ Map<String, Map<String, String>> allTranslations = {
     'Total Income': 'Toplam Gelir',
     'Amount: ': 'Miktar: ',
     'Date: ': 'Tarih: ',
+    'Settings': 'Ayarlar',
+    'Languages': 'Dil Seçenekleri',
+    'Clear Application Data': 'Uygulama Verilerini Temizle',
+    'Clear Data': 'Verileri Temizle',
+    'Are you sure you want to clear all user data ?': 'Tüm kullanıcı verilerini silmek istediğinizden emin misiniz?',
+
   },
   'fr': {
     'Salary Calculation': 'Calcul du salaire',
@@ -259,5 +270,10 @@ Map<String, Map<String, String>> allTranslations = {
     'Total Income': 'Revenu Total',
     'Amount: ': 'Montant : ',
     'Date: ': 'Date : ',
+    'Settings': 'Paramètres',
+    'Languages': 'Langues',
+    'Clear Application Data': 'Effacer données',
+    'Clear Data': 'Effacer les données',
+    'Are you sure you want to clear all user data ?':  'Êtes-vous sûr ?',
   },
 };

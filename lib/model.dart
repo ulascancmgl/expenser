@@ -14,6 +14,6 @@ class Item {
     double currentValue = values[valueIndex];
     double previousValue = values[valueIndex - 1];
     double inflation = ((currentValue - previousValue) / previousValue) * 100.0;
-    return inflation.isNaN ? 0.0 : inflation;
+    return double.parse(inflation.toStringAsFixed(2));
   }
 }

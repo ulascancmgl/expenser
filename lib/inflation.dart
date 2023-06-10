@@ -110,31 +110,57 @@ class _InflationPageState extends State<InflationPage> {
         child: Column(
           children: [
             SizedBox(height: 16.0),
-            DropdownButton<String>(
-              value: selectedCategory,
-              items: [
-                'Food',
-                'Transportation',
-                'Shopping',
-                'Entertainment',
-                'Bills',
-                'Others',
-              ].map((category) {
-                return DropdownMenuItem<String>(
-                  value: category,
-                  child: Text(_getTranslatedString(category)),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedCategory = value!;
-                });
-              },
+            Container(
+              width: 250.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: DropdownButton<String>(
+                  value: selectedCategory,
+                  dropdownColor: Colors.white,
+                  items: [
+                    'Food',
+                    'Transportation',
+                    'Shopping',
+                    'Entertainment',
+                    'Bills',
+                    'Others',
+                  ].map((category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(
+                        _getTranslatedString(category),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCategory = value!;
+                    });
+                  },
+                  style: TextStyle(color: Colors.black),
+                  underline: Container(),
+                  icon: Icon(Icons.arrow_drop_down),
+                ),
+              ),
             ),
             SizedBox(height: 16.0),
             Container(
               width: 250.0,
               child: TextField(
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                ),
                 controller: nameController,
                 decoration: InputDecoration(
                   labelText: _getTranslatedString('Product Name'),
@@ -151,6 +177,11 @@ class _InflationPageState extends State<InflationPage> {
             Container(
               width: 250.0,
               child: TextField(
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                ),
                 controller: initialValueController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -209,97 +240,164 @@ class _InflationPageState extends State<InflationPage> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListTile(
-                        title: Text(item.name),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${item.category} - ${item.initialValue}'),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: item.values.length - 1,
-                              itemBuilder: (context, valueIndex) {
-                                double value = item.values[valueIndex + 1];
-                                double inflation =
-                                    item.calculateInflation(valueIndex + 1);
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 16.0),
-                                  child: Row(
-                                    children: [
-                                      Text('$value'),
-                                      SizedBox(width: 8.0),
-                                      Text(_getTranslatedString('Inflation') +
-                                          ': $inflation%'),
-                                    ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.1),
+                        child: Center(
+                          child: FractionallySizedBox(
+                            widthFactor: 0.8,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors.white,
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  item.name,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                );
-                              },
-                            ),
-                            SizedBox(height: 16.0),
-                            Container(
-                              width: 250.0,
-                              child: TextField(
-                                controller: newValueControllers[index],
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  labelText: _getTranslatedString('New Value'),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 16.0),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${item.category} - ${item.initialValue}',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        color: Colors.white,
+                                      ),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: item.values.length - 1,
+                                        itemBuilder: (context, valueIndex) {
+                                          double value =
+                                              item.values[valueIndex + 1];
+                                          double inflation =
+                                              item.calculateInflation(
+                                                  valueIndex + 1);
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  '$value',
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8.0),
+                                                Text(
+                                                  _getTranslatedString(
+                                                          'Inflation') +
+                                                      ': $inflation%',
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    Container(
+                                      width: 250.0,
+                                      child: TextField(
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        controller: newValueControllers[index],
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          labelText:
+                                              _getTranslatedString('New Value'),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 16.0),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          child: Text(
+                                            _getTranslatedString('Update'),
+                                            style: TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.indigo,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 20.0,
+                                              vertical: 12.0,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            double newValue = double.tryParse(
+                                                    newValueControllers[index]!
+                                                        .text
+                                                        .trim()) ??
+                                                0.0;
+                                            if (newValue > 0) {
+                                              setState(() {
+                                                item.values.add(newValue);
+                                                newValueControllers[index]!
+                                                    .clear();
+                                                saveItems();
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete),
+                                          onPressed: () {
+                                            deleteItem(index);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            SizedBox(height: 16.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ElevatedButton(
-                                  child: Text(
-                                    _getTranslatedString('Update'),
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.indigo,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20.0,
-                                      vertical: 12.0,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    double newValue = double.tryParse(
-                                            newValueControllers[index]!
-                                                .text
-                                                .trim()) ??
-                                        0.0;
-                                    if (newValue > 0) {
-                                      setState(() {
-                                        item.values.add(newValue);
-                                        newValueControllers[index]!.clear();
-                                        saveItems();
-                                      });
-                                    }
-                                  },
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    deleteItem(index);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                       Divider(),

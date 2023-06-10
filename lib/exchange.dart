@@ -203,7 +203,11 @@ class _ExchangePageState extends State<ExchangePage> {
                   children: [
                     Text(
                       '${firstCurrency?.name ?? _getTranslatedString("Select Currency")}',
-                      style: TextStyle(fontSize: 16.0),
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Icon(Icons.arrow_drop_down),
                   ],
@@ -289,7 +293,11 @@ class _ExchangePageState extends State<ExchangePage> {
                   children: [
                     Text(
                       '${secondCurrency?.name ?? _getTranslatedString("Select Currency")}',
-                      style: TextStyle(fontSize: 16.0),
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Icon(Icons.arrow_drop_down),
                   ],

@@ -87,7 +87,7 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 300.0),
                 Container(
                   width: 250.0,
                   child: TextField(
@@ -95,6 +95,8 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
                     keyboardType: TextInputType.number,
                     style: TextStyle(
                       fontSize: 16.0,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
                     ),
                     decoration: InputDecoration(
                       labelText: _getTranslatedString('Your Salary'),
@@ -115,6 +117,8 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
                     keyboardType: TextInputType.number,
                     style: TextStyle(
                       fontSize: 16.0,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
                     ),
                     decoration: InputDecoration(
                       labelText: _getTranslatedString('Product Price'),

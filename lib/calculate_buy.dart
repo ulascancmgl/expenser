@@ -87,55 +87,135 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration:
-                    InputDecoration(labelText: _getTranslatedString('Salary')),
-                onChanged: (value) {
-                  setState(() {
-                    salary = double.parse(value);
-                  });
-                },
+              SizedBox(height: 20.0),
+              Container(
+                width: 250.0,
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Salary'),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      salary = double.parse(value);
+                    });
+                  },
+                ),
               ),
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: _getTranslatedString('Loan Amount')),
-                onChanged: (value) {
-                  setState(() {
-                    originalLoanAmount = double.parse(value);
-                  });
-                },
+              SizedBox(height: 20.0),
+              Container(
+                width: 250.0,
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Loan Amount'),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      originalLoanAmount = double.parse(value);
+                    });
+                  },
+                ),
               ),
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: _getTranslatedString('Down Payment')),
-                onChanged: (value) {
-                  setState(() {
-                    downPayment = double.parse(value);
-                  });
-                },
+              SizedBox(height: 20.0),
+              Container(
+                width: 250.0,
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Down Payment'),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      downPayment = double.parse(value);
+                    });
+                  },
+                ),
               ),
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: _getTranslatedString('Interest Rate (%)')),
-                onChanged: (value) {
-                  setState(() {
-                    interestRate = double.parse(value);
-                  });
-                },
+              SizedBox(height: 20.0),
+              Container(
+                width: 250.0,
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Interest Rate (%)'),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      interestRate = double.parse(value);
+                    });
+                  },
+                ),
               ),
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: _getTranslatedString('Loan Period (years)')),
-                onChanged: (value) {
-                  setState(() {
-                    loanPeriod = int.parse(value);
-                  });
-                },
+              SizedBox(height: 20.0),
+              Container(
+                width: 250.0,
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: _getTranslatedString('Loan Period (years)'),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      loanPeriod = int.parse(value);
+                    });
+                  },
+                ),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(

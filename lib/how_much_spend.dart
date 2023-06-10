@@ -18,6 +18,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
   TextEditingController subtractValueController = TextEditingController();
   int remainingDays = 0;
   double dailyExpense = 0.0;
+  Color scarletColor = Color.fromARGB(255, 255, 36, 94);
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =
@@ -179,94 +180,193 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 16.0),
-              TextField(
-                controller: incomeController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: _getTranslatedString('Income Amount'),
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 16.0),
-              GestureDetector(
-                onTap: selectDate,
-                child: AbsorbPointer(
+              SizedBox(height: 50.0),
+              FractionallySizedBox(
+                widthFactor: 0.7,
+                child: Container(
+                  width: double.infinity,
+                  height: 48.0,
+                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white,
+                  ),
                   child: TextField(
-                    controller: futureDateController,
-                    keyboardType: TextInputType.datetime,
+                    controller: incomeController,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText:
-                          _getTranslatedString('Future Date (yyyy-MM-dd)'),
-                      border: OutlineInputBorder(),
+                      labelText: _getTranslatedString('Income Amount'),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
               ),
               SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: calculateExpense,
-                child: Text(_getTranslatedString('Calculate')),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigo,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.all(16.0),
+              FractionallySizedBox(
+                widthFactor: 0.7,
+                child: Container(
+                  width: double.infinity,
+                  height: 48.0,
+                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white,
+                  ),
+                  child: GestureDetector(
+                    onTap: selectDate,
+                    child: AbsorbPointer(
+                      child: TextField(
+                        controller: futureDateController,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        keyboardType: TextInputType.datetime,
+                        decoration: InputDecoration(
+                          labelText:
+                              _getTranslatedString('Future Date (yyyy-MM-dd)'),
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 16.0),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 16.0),
-              TextField(
-                controller: subtractValueController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: _getTranslatedString('Subtraction Value'),
-                  border: OutlineInputBorder(),
+              FractionallySizedBox(
+                widthFactor: 0.6,
+                child: ElevatedButton(
+                  onPressed: calculateExpense,
+                  child: Text(_getTranslatedString('Calculate')),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.all(16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: subtractValue,
-                child: Text(
-                  _getTranslatedString('Subtract from Value'),
-                  style: TextStyle(fontSize: 16.0),
+              FractionallySizedBox(
+                widthFactor: 0.7,
+                child: Container(
+                  width: double.infinity,
+                  height: 48.0,
+                  margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.white,
+                  ),
+                  child: TextField(
+                    controller: subtractValueController,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: _getTranslatedString('Subtraction Value'),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigo,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
+              ),
+              SizedBox(height: 16.0),
+              FractionallySizedBox(
+                widthFactor: 0.6,
+                child: ElevatedButton(
+                  onPressed: subtractValue,
+                  child: Text(
+                    _getTranslatedString('Subtract from Value'),
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 32.0),
-              Visibility(
-                visible: remainingDays != 0,
-                child: Column(
-                  children: [
-                    Text(
-                      '${_getTranslatedString('Remaining Days:')} ${remainingDays != 0 ? remainingDays : ''}',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 8.0),
-                    Visibility(
-                      visible: dailyExpense > 0,
-                      child: Text(
-                        '${_getTranslatedString('Daily Expense Amount:')} $dailyExpense',
-                        style: TextStyle(fontSize: 18.0),
+              FractionallySizedBox(
+                widthFactor: 0.5,
+                child: Transform.scale(
+                  scale: 1.2,
+                  child: Visibility(
+                    visible: remainingDays != 0,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.14,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: scarletColor,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 6.0),
+                          Center(
+                            child: Text(
+                              '${_getTranslatedString('Remaining Days:')} ${remainingDays != 0 ? remainingDays : ''}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 18.0),
+                          Visibility(
+                            visible: dailyExpense > 0,
+                            child: Center(
+                              child: Text(
+                                '${_getTranslatedString('Daily Expense Amount:')} $dailyExpense',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: resetData,
-                      child: Text(
-                        _getTranslatedString('Reset'),
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.all(16.0),
-                        minimumSize: Size(double.infinity, 0),
-                      ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 32.0),
+              FractionallySizedBox(
+                widthFactor: 0.6,
+                child: ElevatedButton(
+                  onPressed: resetData,
+                  child: Text(
+                    _getTranslatedString('Reset'),
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.all(16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

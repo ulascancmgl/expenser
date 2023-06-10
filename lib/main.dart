@@ -47,6 +47,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? currentLanguage;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -93,6 +94,14 @@ class _HomePageState extends State<HomePage> {
     return allTranslations[currentLanguage]?[originalString] ?? originalString;
   }
 
+  void changeLanguage(String languageCode) {
+    setState(() {
+      currentLanguage = languageCode;
+      _saveSelectedLanguage(languageCode);
+      _loadSelectedLanguage();
+    });
+  }
+
   final ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.indigo,
     foregroundColor: Colors.white,
@@ -103,9 +112,39 @@ class _HomePageState extends State<HomePage> {
     ),
   );
 
+  Future<void> clearUserData(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(_getTranslatedString('Clear Data')),
+          content: Text(_getTranslatedString('Are you sure you want to clear all user data ?')),
+          actions: [
+            TextButton(
+              child: Text(_getTranslatedString('Cancel')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(_getTranslatedString('OK')),
+              onPressed: () async {
+                await prefs.clear();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(_getTranslatedString('Expense Calculator')),
         backgroundColor: Colors.transparent,
@@ -119,34 +158,105 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         actions: [
-          PopupMenuButton<String>(
-            icon: Icon(
-              Icons.language_sharp,
-              color: Colors.white,
-              size: 24.0,
-            ),
-            onSelected: (selectedLanguage) {
-              setState(() {
-                currentLanguage = selectedLanguage;
-              });
-              _saveSelectedLanguage(selectedLanguage);
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              _scaffoldKey.currentState!.openEndDrawer();
             },
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem(
-                value: 'en',
-                child: Text('English'),
-              ),
-              PopupMenuItem(
-                value: 'tr',
-                child: Text('Türkçe'),
-              ),
-              PopupMenuItem(
-                value: 'fr',
-                child: Text('Français'),
-              ),
-            ],
           ),
         ],
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.indigo,
+              ),
+              child: Text(
+                _getTranslatedString('Settings'),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ExpansionTile(
+              title: Row(
+                children: [
+                  Icon(Icons.language_sharp, size: 24),
+                  SizedBox(width: 10),
+                  Text(_getTranslatedString('Languages')),
+                ],
+              ),
+              children: [
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇺🇸', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('English'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('en');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇹🇷', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('Türkçe'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('tr');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇫🇷', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('Français'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('fr');
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+            ExpansionTile(
+              title: Row(
+                children: [
+                  Icon(Icons.delete_sweep, size: 24),
+                  SizedBox(width: 10),
+                  Text(_getTranslatedString('Clear Data')),
+                ],
+              ),
+              children: [
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.delete_forever, size: 24),
+                      Text(_getTranslatedString('Clear Application Data'),
+                          style: TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                  onTap: () {
+                    clearUserData(context);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
