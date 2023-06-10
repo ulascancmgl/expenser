@@ -103,41 +103,37 @@ class _IncomePageState extends State<IncomePage> {
   }
 
   Future<void> _showDatePicker(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
+    DateTime? pickedDate;
+    await showDialog(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-      builder: (BuildContext context, Widget? child) {
+      builder: (BuildContext context) {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.indigo,
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
               cardColor: Colors.indigo,
             ),
             dialogBackgroundColor: Colors.white,
           ),
-          child: Builder(
-            builder: (context) {
-              return Column(
-                children: [
-                  SizedBox(height: 16),
-                  child!,
-                ],
-              );
-            },
+          child: Localizations.override(
+            context: context,
+            locale: Locale(widget.currentLanguage),
+            child: DatePickerDialog(
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+            ),
           ),
         );
       },
-      confirmText: allTranslations[widget.currentLanguage]!['OK']!,
-      cancelText: allTranslations[widget.currentLanguage]!['Cancel']!,
-      helpText: allTranslations[widget.currentLanguage]!['Select Date']!,
-    );
+    ).then((value) {
+      pickedDate = value as DateTime?;
+    });
 
     if (pickedDate != null) {
       setState(() {
-        _startDate = pickedDate;
+        _startDate = pickedDate!;
       });
     }
   }

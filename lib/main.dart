@@ -2,6 +2,7 @@ import 'package:expenser/calculate_buy.dart';
 import 'package:expenser/how_much_spend.dart';
 import 'package:expenser/total_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'calc_to_buy.dart';
@@ -26,6 +27,16 @@ class ExpenseCalculatorApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blueGrey,
       ),
       home: HomePage(),
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('tr', ''),
+        Locale('fr', ''),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      locale: Locale('en'),
     );
   }
 }
