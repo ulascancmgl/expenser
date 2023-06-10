@@ -86,7 +86,6 @@ class _ExchangePageState extends State<ExchangePage> {
         elevation: 0,
       ),
       body: Container(
-        color: Colors.grey.shade200,
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

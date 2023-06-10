@@ -23,6 +23,7 @@ class ExpenseCalculatorApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.blueGrey,
       ),
       home: HomePage(),
     );

@@ -56,7 +56,6 @@ class _CalcToBuyPageState extends State<CalcToBuyPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.grey.shade200,
           padding: EdgeInsets.all(16.0),
           child: Center(
             child: Column(
