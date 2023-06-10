@@ -153,7 +153,16 @@ class _IncomePageState extends State<IncomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_getTranslatedString('Income Page')),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey, Colors.deepPurple],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
       ),
       body: Container(
         width: double.infinity,

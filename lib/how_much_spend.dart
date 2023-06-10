@@ -138,12 +138,21 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey, Colors.deepPurple],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.blue,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -152,7 +161,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
         title: Text(
           _getTranslatedString("How Much Can I Spend?"),
           style: TextStyle(
-            color: Colors.blue,
+            color: Colors.white,
           ),
         ),
       ),

@@ -87,7 +87,16 @@ class _InflationPageState extends State<InflationPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey, Colors.deepPurple],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
       ),
       body: Container(
         width: double.infinity,

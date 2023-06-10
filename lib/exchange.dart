@@ -82,8 +82,17 @@ class _ExchangePageState extends State<ExchangePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.indigo,
         elevation: 0,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey, Colors.deepPurple],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
       ),
       body: Container(
         width: double.infinity,
