@@ -271,36 +271,63 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 8.0),
-              ElevatedButton(
-                onPressed: currentLanguage != null
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                IncomePage(currentLanguage: currentLanguage!),
-                          ),
-                        );
-                      }
-                    : null,
-                style: elevatedButtonStyle,
-                child: Text(_getTranslatedString('Income')),
-              ),
-              SizedBox(height: 8.0),
-              ElevatedButton(
-                onPressed: currentLanguage != null
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ExpensePage(currentLanguage: currentLanguage!),
-                          ),
-                        );
-                      }
-                    : null,
-                style: elevatedButtonStyle,
-                child: Text(_getTranslatedString('Expense')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 175,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: currentLanguage != null
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IncomePage(
+                                      currentLanguage: currentLanguage!),
+                                ),
+                              );
+                            }
+                          : null,
+                      style: elevatedButtonStyle,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.attach_money),
+                          SizedBox(width: 8.0),
+                          Text(_getTranslatedString('Income')),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.0),
+                  Container(
+                    width: 175,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: currentLanguage != null
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ExpensePage(
+                                      currentLanguage: currentLanguage!),
+                                ),
+                              );
+                            }
+                          : null,
+                      style: elevatedButtonStyle,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.money_off),
+                          SizedBox(width: 8.0),
+                          Text(_getTranslatedString('Expense')),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 8.0),
               ElevatedButton(
