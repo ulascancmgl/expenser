@@ -64,16 +64,20 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
             fit: BoxFit.cover,
           ),
         ),
+        padding: EdgeInsets.symmetric(horizontal: 70),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DropdownButton<int>(
+            SizedBox(height: 50),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: DropdownButton<int>(
                       value: selectedMonth,
                       onChanged: (newValue) {
                         setState(() {
@@ -87,18 +91,26 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                           DropdownMenuItem<int>(
                             value: month,
                             child: Text(
-                              _getTranslatedString(getMonthName(month)),
+                              _getTranslatedString('${getMonthName(month)}'),
                               style: TextStyle(
+                                fontSize: 18.0,
                                 color: Colors.black87,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
                               ),
                             ),
                           ),
                       ],
                     ),
-                    SizedBox(width: 16),
-                    DropdownButton<int>(
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: DropdownButton<int>(
                       value: selectedYear,
                       onChanged: (newValue) {
                         setState(() {
@@ -116,103 +128,120 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                             child: Text(
                               '$year',
                               style: TextStyle(
+                                fontSize: 18.0,
                                 color: Colors.black87,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
                               ),
                             ),
                           ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
+            SizedBox(height: 20),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: ListView.builder(
-                  itemCount: filteredExpenses.length + 2,
-                  itemBuilder: (context, index) {
-                    if (index < filteredExpenses.length) {
-                      return ListTile(
-                        title: Center(
-                          child: Text(
+              child: ListView.builder(
+                itemCount: filteredExpenses.length + 2,
+                itemBuilder: (context, index) {
+                  if (index < filteredExpenses.length) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Text(
                             _getTranslatedString(
                                 filteredExpenses[index].expenseType),
                             style: TextStyle(
+                              fontSize: 18.0,
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
                             ),
                           ),
-                        ),
-                        subtitle: Center(
-                          child: Text(
+                          subtitle: Text(
                             '${_getTranslatedString('Amount: ')}${filteredExpenses[index].amount.toStringAsFixed(2)}\n${_getTranslatedString('Date: ')}${filteredExpenses[index].date}',
                             style: TextStyle(
+                              fontSize: 18.0,
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
                             ),
                           ),
                         ),
-                      );
-                    } else if (index == filteredExpenses.length) {
-                      return ListTile(
-                        title: Center(
-                          child: Text(
-                            _getTranslatedString('Total Expense'),
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                      ),
+                    );
+                  } else if (index == filteredExpenses.length) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Center(
+                            child: Text(
+                              _getTranslatedString('Total Expense'),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          subtitle: Center(
+                            child: Text(
+                              '${totalExpense.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                        subtitle: Center(
-                          child: Text(
-                            '${totalExpense.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                      ),
+                    );
+                  } else if (index == filteredExpenses.length + 1) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Center(
+                            child: Text(
+                              _getTranslatedString('Total Income'),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          subtitle: Center(
+                            child: Text(
+                              '${totalIncome.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      );
-                    } else if (index == filteredExpenses.length + 1) {
-                      return ListTile(
-                        title: Center(
-                          child: Text(
-                            _getTranslatedString('Total Income'),
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        subtitle: Center(
-                          child: Text(
-                            '${totalIncome.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                ),
+                      ),
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
               ),
             ),
           ],

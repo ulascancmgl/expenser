@@ -120,7 +120,8 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(_getTranslatedString('Clear Data')),
-          content: Text(_getTranslatedString('Are you sure you want to clear all user data ?')),
+          content: Text(_getTranslatedString(
+              'Are you sure you want to clear all user data ?')),
           actions: [
             TextButton(
               child: Text(_getTranslatedString('Cancel')),
