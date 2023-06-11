@@ -4,6 +4,7 @@ import 'package:expenser/total_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import 'calc_to_buy.dart';
 import 'exchange.dart';
@@ -19,24 +20,51 @@ void main() {
 class ExpenseCalculatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Expense Calculator',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.blueGrey,
+    return ChangeNotifierProvider(
+      create: (_) => ThemeChanger()..initializeColor(),
+      child: Consumer<ThemeChanger>(
+        builder: (context, themeChanger, _) {
+          return MaterialApp(
+            title: 'Expense Calculator',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              scaffoldBackgroundColor: themeChanger.scaffoldColor,
+            ),
+            home: HomePage(),
+            supportedLocales: const [
+              Locale('en', ''),
+              Locale('tr', ''),
+              Locale('fr', ''),
+            ],
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+          );
+        },
       ),
-      home: HomePage(),
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('tr', ''),
-        Locale('fr', ''),
-      ],
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
     );
+  }
+}
+
+class ThemeChanger extends ChangeNotifier {
+  Color scaffoldColor = Colors.blueGrey;
+
+  Future<void> initializeColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? savedColor = prefs.getInt('scaffoldColor');
+    if (savedColor != null) {
+      scaffoldColor = Color(savedColor);
+    }
+    notifyListeners();
+  }
+
+  void changeColor(Color newColor) async {
+    scaffoldColor = newColor;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('scaffoldColor', newColor.value);
+    notifyListeners();
   }
 }
 
@@ -134,6 +162,112 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 await prefs.clear();
                 Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void changeScaffoldColor(BuildContext context, Color newColor) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('scaffoldColor');
+    await prefs.setInt('scaffoldColor', newColor.value);
+    ThemeChanger themeChanger =
+        Provider.of<ThemeChanger>(context, listen: false);
+    themeChanger.changeColor(newColor);
+  }
+
+  void showColorPicker(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text(_getTranslatedString('Select Color')),
+          children: [
+            ListTile(
+              title: Text(_getTranslatedString('BlueGrey')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.blueGrey);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Red')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.red);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Green')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.green);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Yellow')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.yellow);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Orange')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.orange);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Purple')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.purple);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Pink')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.pink);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Teal')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.teal);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Cyan')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.cyan);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Amber')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.amber);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Deep Purple')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.deepPurple);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(_getTranslatedString('Indigo')),
+              onTap: () {
+                changeScaffoldColor(context, Colors.indigo);
+                Navigator.pop(context);
               },
             ),
           ],
@@ -252,6 +386,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () {
                     clearUserData(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Icon(Icons.color_lens, size: 24),
+                      Text(_getTranslatedString('Change Background Color'),
+                          style: TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                  onTap: () {
+                    showColorPicker(context);
                   },
                 ),
               ],
