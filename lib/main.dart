@@ -88,6 +88,13 @@ class _HomePageState extends State<HomePage> {
       const Locale('en', ''),
       const Locale('tr', ''),
       const Locale('fr', ''),
+      const Locale('de', ''),
+      const Locale('es', ''),
+      const Locale('ja', ''),
+      const Locale('vi', ''),
+      const Locale('zh', ''),
+      const Locale('ar', ''),
+      const Locale('hi', ''),
     ];
   }
 
@@ -294,8 +301,7 @@ class _HomePageState extends State<HomePage> {
         leading: Row(
           children: [
             SizedBox(width: 12.0),
-            Image.asset('assets/images/walletapp.png',
-                width: 40, height: 40),
+            Image.asset('assets/images/walletapp.png', width: 40, height: 40),
             SizedBox(width: 4.0),
           ],
         ),
@@ -365,6 +371,45 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   title: Row(
                     children: [
+                      Text('🇷🇺', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('Русский'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('ru');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇩🇪', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('Deutsch'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('de');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇪🇸', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('Español'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('es');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
                       Text('🇫🇷', style: TextStyle(fontSize: 24)),
                       SizedBox(width: 10),
                       Text('Français'),
@@ -372,6 +417,71 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () {
                     changeLanguage('fr');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇯🇵', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('日本語'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('ja');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇨🇳', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('中文'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('zh');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇮🇳', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('हिन्दी'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('hi');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇻🇳', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('Tiếng Việt'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('vi');
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('🇸🇦', style: TextStyle(fontSize: 24)),
+                      SizedBox(width: 10),
+                      Text('العربية'),
+                    ],
+                  ),
+                  onTap: () {
+                    changeLanguage('ar');
                     Navigator.pop(context);
                   },
                 ),
