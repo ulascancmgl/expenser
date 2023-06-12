@@ -142,7 +142,7 @@ class _IncomePageState extends State<IncomePage> {
     backgroundColor: Colors.indigo,
     foregroundColor: Colors.white,
     textStyle: TextStyle(fontSize: 16),
-    fixedSize: Size(250, 50),
+    fixedSize: Size(275, 50),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
@@ -179,6 +179,7 @@ class _IncomePageState extends State<IncomePage> {
               padding: EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                  SizedBox(height: 16.0),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     padding:

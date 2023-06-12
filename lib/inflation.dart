@@ -80,7 +80,7 @@ class _InflationPageState extends State<InflationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Inflation Page',
+          _getTranslatedString('Inflation Page'),
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.0,
@@ -109,7 +109,7 @@ class _InflationPageState extends State<InflationPage> {
         ),
         child: Column(
           children: [
-            SizedBox(height: 16.0),
+            SizedBox(height: 20.0),
             Container(
               width: 250.0,
               decoration: BoxDecoration(
@@ -266,7 +266,7 @@ class _InflationPageState extends State<InflationPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${item.category} - ${item.initialValue}',
+                                      '${_getTranslatedString(item.category)} - ${item.initialValue}',
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.black87,
@@ -386,7 +386,10 @@ class _InflationPageState extends State<InflationPage> {
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.delete),
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
                                           onPressed: () {
                                             deleteItem(index);
                                           },

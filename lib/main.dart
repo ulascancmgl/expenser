@@ -1,5 +1,3 @@
-import 'package:expenser/calculate_buy.dart';
-import 'package:expenser/how_much_spend.dart';
 import 'package:expenser/total_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,7 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 import 'calc_to_buy.dart';
+import 'calculate_buy.dart';
 import 'exchange.dart';
+import 'how_much_spend.dart';
 import 'income.dart';
 import 'expense.dart';
 import 'inflation.dart';
@@ -25,7 +25,7 @@ class ExpenseCalculatorApp extends StatelessWidget {
       child: Consumer<ThemeChanger>(
         builder: (context, themeChanger, _) {
           return MaterialApp(
-            title: 'Expense Calculator',
+            title: 'BudgetX',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
@@ -281,7 +281,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(_getTranslatedString('Expense Calculator')),
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -292,6 +291,14 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+        leading: Row(
+          children: [
+            SizedBox(width: 12.0),
+            Image.asset('assets/images/walletapp.png',
+                width: 40, height: 40),
+            SizedBox(width: 4.0),
+          ],
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -300,6 +307,9 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ],
+        title: Center(
+          child: Text(_getTranslatedString('BudgetX')),
+        ),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -370,9 +380,9 @@ class _HomePageState extends State<HomePage> {
             ExpansionTile(
               title: Row(
                 children: [
-                  Icon(Icons.delete_sweep, size: 24),
+                  Icon(Icons.settings_applications, size: 24),
                   SizedBox(width: 10),
-                  Text(_getTranslatedString('Clear Data')),
+                  Text(_getTranslatedString('Application Settings')),
                 ],
               ),
               children: [
@@ -421,8 +431,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 175,
-                    height: 50,
+                    width: 150,
+                    height: 90,
                     child: ElevatedButton(
                       onPressed: currentLanguage != null
                           ? () {
@@ -435,11 +445,16 @@ class _HomePageState extends State<HomePage> {
                               );
                             }
                           : null,
-                      style: elevatedButtonStyle,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.attach_money),
+                          Icon(Icons.account_balance_wallet_rounded),
                           SizedBox(width: 8.0),
                           Text(_getTranslatedString('Income')),
                         ],
@@ -448,8 +463,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(width: 8.0),
                   Container(
-                    width: 175,
-                    height: 50,
+                    width: 150,
+                    height: 90,
                     child: ElevatedButton(
                       onPressed: currentLanguage != null
                           ? () {
@@ -462,11 +477,16 @@ class _HomePageState extends State<HomePage> {
                               );
                             }
                           : null,
-                      style: elevatedButtonStyle,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.money_off),
+                          Icon(Icons.account_balance_wallet_outlined),
                           SizedBox(width: 8.0),
                           Text(_getTranslatedString('Expense')),
                         ],
@@ -475,7 +495,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 8.0),
+              SizedBox(height: 140.0),
               ElevatedButton(
                 onPressed: currentLanguage != null
                     ? () {
@@ -505,7 +525,7 @@ class _HomePageState extends State<HomePage> {
                       }
                     : null,
                 style: elevatedButtonStyle,
-                child: Text(_getTranslatedString('Inflation')),
+                child: Text(_getTranslatedString('Price Index Calculator')),
               ),
               SizedBox(height: 8.0),
               ElevatedButton(
@@ -521,7 +541,10 @@ class _HomePageState extends State<HomePage> {
                       }
                     : null,
                 style: elevatedButtonStyle,
-                child: Text(_getTranslatedString('How much to spend daily')),
+                child: Text(
+                  _getTranslatedString('How much to spend daily'),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(height: 8.0),
               ElevatedButton(

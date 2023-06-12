@@ -74,7 +74,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: DropdownButton<int>(
@@ -107,7 +107,7 @@ class _TotalExpensePageState extends State<TotalExpensePage> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: DropdownButton<int>(

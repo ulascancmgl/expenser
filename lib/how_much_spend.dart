@@ -90,7 +90,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
             locale: Locale(widget.currentLanguage),
             child: DatePickerDialog(
               initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
+              firstDate: DateTime.now(),
               lastDate: DateTime(2100),
             ),
           ),
@@ -126,6 +126,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
     double subtractValue = double.parse(subtractValueController.text);
     double updatedIncome = income - subtractValue;
     incomeController.text = updatedIncome.toString();
+    subtractValueController.clear();
     calculateExpense();
 
     saveData();
@@ -334,7 +335,7 @@ class _HowMuchToSpendState extends State<HowMuchToSpend> {
                             visible: dailyExpense > 0,
                             child: Center(
                               child: Text(
-                                '${_getTranslatedString('Daily Expense Amount:')} $dailyExpense',
+                                '${_getTranslatedString('Daily Expense Amount:')} ${dailyExpense.toStringAsFixed(dailyExpense.truncateToDouble() == dailyExpense ? 0 : 2)}',
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.black87,

@@ -108,6 +108,7 @@ class _ExpensePageState extends State<ExpensePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(width: 50),
                     DropdownButton<int>(
                       value: selectedMonth,
                       onChanged: (newValue) {
@@ -129,7 +130,7 @@ class _ExpensePageState extends State<ExpensePage> {
                           ),
                       ],
                     ),
-                    SizedBox(width: 16),
+                    SizedBox(width: 12),
                     DropdownButton<int>(
                       value: selectedYear,
                       onChanged: (newValue) {
@@ -271,7 +272,10 @@ class _ExpensePageState extends State<ExpensePage> {
                       ),
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
                       onPressed: () => _deleteExpense(filteredExpenses[index]),
                     ),
                   );
