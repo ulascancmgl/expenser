@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import 'langs/lang.dart';
@@ -23,6 +22,13 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
   double totalPayment = 0.0;
   bool isCalculated = false;
   bool isLoanAvailable = false;
+  String? selectedOption;
+  String selectedDuration = 'Month';
+
+  final List<String> durationOptions = [
+    'Month',
+    'Year',
+  ];
 
   String _getTranslatedString(String key) {
     Map<String, String> translations =
@@ -30,16 +36,52 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
     return translations[key] ?? key;
   }
 
+  double calculateTotalInterestPayment(
+      double loanAmount, double monthlyInterest, int loanPeriod,
+      {double totalInterestPayment = 0}) {
+    if (loanPeriod == 1) {
+      return totalInterestPayment;
+    } else {
+      double monthlyPayment = loanAmount / loanPeriod;
+      double monthlyInterestPayment = loanAmount *
+          (monthlyInterest * (1 + monthlyInterest) * loanPeriod) /
+          ((1 + monthlyInterest) * loanPeriod - 1);
+      totalInterestPayment += monthlyInterestPayment;
+      loanAmount -= monthlyPayment;
+      return calculateTotalInterestPayment(
+        loanAmount,
+        monthlyInterest,
+        loanPeriod - 1,
+        totalInterestPayment: totalInterestPayment,
+      );
+    }
+  }
+
   void calculateLoan() {
     double remainingAmount = originalLoanAmount - downPayment;
     loanAmount = remainingAmount;
 
     double monthlyInterest = interestRate / 100;
-    int totalMonths = loanPeriod * 12;
-    monthlyPayment = (loanAmount * monthlyInterest) /
-        (1 - math.pow(1 + monthlyInterest, -totalMonths));
+    double totalInterestPayment =
+        calculateTotalInterestPayment(loanAmount, monthlyInterest, loanPeriod);
+    totalPayment = loanAmount + totalInterestPayment;
+    monthlyPayment = totalPayment / loanPeriod;
 
-    totalPayment = monthlyPayment * totalMonths;
+    setState(() {
+      isCalculated = true;
+      isLoanAvailable = monthlyPayment <= salary * 0.35;
+    });
+  }
+
+  void calculateLoanYear() {
+    double remainingAmount = originalLoanAmount - downPayment;
+    loanAmount = remainingAmount;
+
+    double monthlyInterest = interestRate / 100 / 12;
+    double totalInterestPayment =
+        calculateTotalInterestPayment(loanAmount, monthlyInterest, loanPeriod);
+    totalPayment = loanAmount + totalInterestPayment;
+    monthlyPayment = totalPayment / loanPeriod;
 
     setState(() {
       isCalculated = true;
@@ -168,60 +210,181 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
               SizedBox(height: 20.0),
               Container(
                 width: 250.0,
-                child: TextField(
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: _getTranslatedString('Interest Rate (%)'),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: _getTranslatedString('Interest Rate (%)'),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 16.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            interestRate = double.parse(value);
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      interestRate = double.parse(value);
-                    });
-                  },
+                    SizedBox(width: 16.0),
+                    Container(
+                      width: 90.0,
+                      height: 45.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.center,
+                          child: DropdownButton<String>(
+                            value: selectedOption,
+                            onChanged: (newValue) {
+                              setState(() {
+                                selectedOption = newValue;
+                              });
+                            },
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            underline: SizedBox(),
+                            icon: Icon(Icons.arrow_drop_down),
+                            items: <String?>[
+                              null,
+                              _getTranslatedString('Yearly'),
+                              _getTranslatedString('Monthly')
+                            ].map<DropdownMenuItem<String>>((String? value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    color: selectedOption == value
+                                        ? Colors.white
+                                        : null,
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Text(value ??
+                                        _getTranslatedString('Select')),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20.0),
               Container(
                 width: 250.0,
-                child: TextField(
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: _getTranslatedString('Loan Period (years)'),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelText: _getTranslatedString('Loan Period'),
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 16.0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                loanPeriod = int.parse(value);
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Container(
+                          width: 95.0,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.center,
+                              child: DropdownButton<String>(
+                                value: selectedDuration,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedDuration = value!;
+                                    if (selectedDuration ==
+                                        _getTranslatedString('Year')) {
+                                      loanPeriod *= 12;
+                                    }
+                                  });
+                                },
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                underline: SizedBox(),
+                                items: durationOptions
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Container(
+                                      color: Colors.white,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(_getTranslatedString(value)),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      loanPeriod = int.parse(value);
-                    });
-                  },
+                  ],
                 ),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
                 style: elevatedButtonStyle,
                 child: Text(_getTranslatedString('Calculate')),
-                onPressed: calculateLoan,
+                onPressed: selectedOption != null
+                    ? (_getTranslatedString(selectedOption!) ==
+                            _getTranslatedString('Yearly')
+                        ? calculateLoanYear
+                        : calculateLoan)
+                    : null,
               ),
               SizedBox(height: 20.0),
               if (isCalculated)

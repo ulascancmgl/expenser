@@ -36,6 +36,13 @@ class ExpenseCalculatorApp extends StatelessWidget {
               Locale('en', ''),
               Locale('tr', ''),
               Locale('fr', ''),
+              Locale('de', ''),
+              Locale('es', ''),
+              Locale('ja', ''),
+              Locale('vi', ''),
+              Locale('zh', ''),
+              Locale('ar', ''),
+              Locale('hi', ''),
             ],
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
