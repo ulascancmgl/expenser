@@ -39,13 +39,13 @@ class _CalculateBuyPageState extends State<CalculateBuyPage> {
   double calculateTotalInterestPayment(
       double loanAmount, double monthlyInterest, int loanPeriod,
       {double totalInterestPayment = 0}) {
-    if (loanPeriod == 1) {
+    if (loanPeriod == 0) {
       return totalInterestPayment;
     } else {
       double monthlyPayment = loanAmount / loanPeriod;
       double monthlyInterestPayment = loanAmount *
           (monthlyInterest * (1 + monthlyInterest) * loanPeriod) /
-          ((1 + monthlyInterest) * loanPeriod - 1);
+          ((1 + monthlyInterest) * loanPeriod);
       totalInterestPayment += monthlyInterestPayment;
       loanAmount -= monthlyPayment;
       return calculateTotalInterestPayment(
